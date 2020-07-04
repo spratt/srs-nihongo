@@ -5,6 +5,7 @@ import * as _ from 'lodash';
 
 import xhr from './http';
 import {shuffle, randomChoices} from './random';
+import {NonEmptyArray, QuestionPicker, NullQuestionPicker, RandomQuestionPicker} from './QuestionPicker';
 
 import data from './data.yaml';
 
@@ -43,34 +44,6 @@ const WrongButton = styled.button`
 const Prompt = styled.h2``;
 
 const Mnemonic = styled.h3``;
-
-interface QuestionPicker {
-  nextQuestion(): string;
-  feedback(s: string, b: boolean): void;
-}
-
-class NullQuestionPicker implements QuestionPicker {
-  nextQuestion(): string { return "Not implemented" }
-  feedback(s: string, b: boolean) {}
-}
-
-type NonEmptyArray<T> = [T, ...T[]];
-
-class RandomQuestionPicker implements QuestionPicker {
-  private prompts: NonEmptyArray<string>;
-
-  constructor(prompts: NonEmptyArray<string>) {
-    this.prompts = prompts;
-  }
-
-  nextQuestion(): string {
-    return randomChoices(this.prompts, 1)[0];
-  }
-
-  feedback(s: string, b: boolean) {
-    console.log(`RandomQuestionPicker.feedback(s = ${s}, b = ${b})`);
-  }
-}
 
 interface SummaryProps {
   answered: number;
@@ -166,6 +139,10 @@ class App extends React.Component<{},AppState> {
     if (Object.keys(this.state.facts).length === 0) {
       console.log('nextQuestion() empty facts');
       return
+    }
+    if (!this.questionPicker.isReady()) {
+      console.log("this.questionPicker isn't ready");
+      return;
     }
     console.log('nextQuestion() this.state');
     console.dir(this.state);
