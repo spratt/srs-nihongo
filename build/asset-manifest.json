@@ -1,23 +1,23 @@
 {
   "files": {
     "main.css": "/srs-nihongo/build/static/css/main.5ecd60fb.chunk.css",
-    "main.js": "/srs-nihongo/build/static/js/main.2f0af3e0.chunk.js",
-    "main.js.map": "/srs-nihongo/build/static/js/main.2f0af3e0.chunk.js.map",
+    "main.js": "/srs-nihongo/build/static/js/main.86adb7f4.chunk.js",
+    "main.js.map": "/srs-nihongo/build/static/js/main.86adb7f4.chunk.js.map",
     "runtime-main.js": "/srs-nihongo/build/static/js/runtime-main.c513082d.js",
     "runtime-main.js.map": "/srs-nihongo/build/static/js/runtime-main.c513082d.js.map",
-    "static/js/2.4f68b7af.chunk.js": "/srs-nihongo/build/static/js/2.4f68b7af.chunk.js",
-    "static/js/2.4f68b7af.chunk.js.map": "/srs-nihongo/build/static/js/2.4f68b7af.chunk.js.map",
+    "static/js/2.2d5e2797.chunk.js": "/srs-nihongo/build/static/js/2.2d5e2797.chunk.js",
+    "static/js/2.2d5e2797.chunk.js.map": "/srs-nihongo/build/static/js/2.2d5e2797.chunk.js.map",
     "index.html": "/srs-nihongo/build/index.html",
-    "precache-manifest.6379eced0331088e1e9f5709a0a00537.js": "/srs-nihongo/build/precache-manifest.6379eced0331088e1e9f5709a0a00537.js",
+    "precache-manifest.fac62259b62c1554f9f50d721fa5de9b.js": "/srs-nihongo/build/precache-manifest.fac62259b62c1554f9f50d721fa5de9b.js",
     "service-worker.js": "/srs-nihongo/build/service-worker.js",
     "static/css/main.5ecd60fb.chunk.css.map": "/srs-nihongo/build/static/css/main.5ecd60fb.chunk.css.map",
-    "static/js/2.4f68b7af.chunk.js.LICENSE.txt": "/srs-nihongo/build/static/js/2.4f68b7af.chunk.js.LICENSE.txt",
+    "static/js/2.2d5e2797.chunk.js.LICENSE.txt": "/srs-nihongo/build/static/js/2.2d5e2797.chunk.js.LICENSE.txt",
     "static/media/data.yaml": "/srs-nihongo/build/static/media/data.7afd0079.yaml"
   },
   "entrypoints": [
     "static/js/runtime-main.c513082d.js",
-    "static/js/2.4f68b7af.chunk.js",
+    "static/js/2.2d5e2797.chunk.js",
     "static/css/main.5ecd60fb.chunk.css",
-    "static/js/main.2f0af3e0.chunk.js"
+    "static/js/main.86adb7f4.chunk.js"
   ]
 }

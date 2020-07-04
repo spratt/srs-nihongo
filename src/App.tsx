@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import yaml from 'js-yaml';
+import * as _ from 'lodash';
 
 import xhr from './http';
 import {shuffle, randomChoices} from './random';
@@ -46,13 +47,16 @@ const Mnemonic = styled.h3``;
 interface SummaryProps {
   answered: number;
   correct: number;
+  seen: number;
+  total: number;
 }
 
 function Summary(props: SummaryProps) {
   return (
     <div>
-      Correct: {props.correct}<br />
-    Answered: {props.answered}<br />
+      <div>Correct: {props.correct}</div>
+      <div>Answered: {props.answered}</div>
+      <div>Seen: {props.seen}/{props.total}</div>
     </div>
   )
 }
@@ -77,6 +81,7 @@ interface AppState {
 
   numCorrect: number;
   numAnswered: number;
+  seenSet: Record<string,{}>;
 }
 
 class App extends React.Component<{},AppState> {
@@ -105,6 +110,7 @@ class App extends React.Component<{},AppState> {
 
         numCorrect: 0,
         numAnswered: 0,
+        seenSet: {},
       };
       this.nextQuestion();
     }).catch((err) => console.error(err));
@@ -117,6 +123,7 @@ class App extends React.Component<{},AppState> {
 
       numCorrect: 0,
       numAnswered: 0,
+      seenSet: {},
     };
   }
   
@@ -132,6 +139,8 @@ class App extends React.Component<{},AppState> {
     const responses = [fact.response];
     const otherResponses = this.state.responses.filter((response) => response !== fact.response);
     responses.push(...randomChoices(otherResponses, 3));
+    const seenSet = _.clone(this.state.seenSet);
+    seenSet[fact.prompt] = {};
     const newState = {
       facts: this.state.facts,
       responses: this.state.responses,
@@ -140,6 +149,7 @@ class App extends React.Component<{},AppState> {
         responses: shuffle(responses),
       },
       answer: undefined,
+      seenSet: seenSet,
     };
     console.log('nextQuestion() new state');
     console.dir(newState);
@@ -234,7 +244,12 @@ class App extends React.Component<{},AppState> {
             S.R.S. 日本語
           </Title>
         </header>
-        <Summary answered={ this.state.numAnswered } correct={ this.state.numCorrect } />
+        <Summary
+          answered={ this.state.numAnswered }
+          correct={ this.state.numCorrect }
+          seen={ Object.keys(this.state.seenSet).length }
+        total={ this.state.facts.length }
+        />
         {this.renderCard()}
         {this.renderMnemonic()}
       </Container>
