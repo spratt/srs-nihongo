@@ -46,12 +46,14 @@ interface PromptValue {
 
 export class SimpleSRSQuestionPicker implements QuestionPicker {
   private promptValues: PromptValue[];
+  private valueKey: string = 'srsValues';
 
   constructor(prompts: NonEmptyArray<string>) {
+    const oldValues = JSON.parse(window.localStorage.getItem(this.valueKey) || '{}');
     this.promptValues = shuffle(prompts).map((prompt) => {
       return {
         prompt: prompt,
-        value: 1,
+        value: oldValues[prompt] || 1,
       };
     });
   }
@@ -75,7 +77,7 @@ export class SimpleSRSQuestionPicker implements QuestionPicker {
     this.promptValues.sort((pv1, pv2) => {
       return pv1.value - pv2.value;
     });
-    console.dir(this.promptValues);
+    window.localStorage.setItem(this.valueKey, JSON.stringify(this.promptValues));
   }
 
   isReady() { return true }
