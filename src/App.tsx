@@ -44,6 +44,34 @@ const Prompt = styled.h2``;
 
 const Mnemonic = styled.h3``;
 
+interface QuestionPicker {
+  nextQuestion(): string;
+  feedback(s: string, b: boolean): void;
+}
+
+class NullQuestionPicker implements QuestionPicker {
+  nextQuestion(): string { return "Not implemented" }
+  feedback(s: string, b: boolean) {}
+}
+
+type NonEmptyArray<T> = [T, ...T[]];
+
+class RandomQuestionPicker implements QuestionPicker {
+  private prompts: NonEmptyArray<string>;
+
+  constructor(prompts: NonEmptyArray<string>) {
+    this.prompts = prompts;
+  }
+
+  nextQuestion(): string {
+    return randomChoices(this.prompts, 1)[0];
+  }
+
+  feedback(s: string, b: boolean) {
+    console.log(`RandomQuestionPicker.feedback(s = ${s}, b = ${b})`);
+  }
+}
+
 interface SummaryProps {
   answered: number;
   correct: number;
@@ -85,6 +113,8 @@ interface AppState {
 }
 
 class App extends React.Component<{},AppState> {
+  private questionPicker: QuestionPicker;
+  
   static emptyQuestion = {
     fact: {
       prompt: '',
@@ -99,10 +129,13 @@ class App extends React.Component<{},AppState> {
     super(props);
     console.log('new App()');
 
+    this.questionPicker = new NullQuestionPicker();
+
     // Start async get call
     xhr('GET', data).then((req) => {
       const data = yaml.load(req.response);
       const prompts = Object.keys(data.facts);
+      this.questionPicker = new RandomQuestionPicker(prompts as NonEmptyArray<string>);
       const responses = prompts.map((prompt: string) => data.facts[prompt].response);
       this.state = {
         facts: data.facts,
@@ -136,7 +169,7 @@ class App extends React.Component<{},AppState> {
     }
     console.log('nextQuestion() this.state');
     console.dir(this.state);
-    const key = randomChoices(Object.keys(this.state.facts), 1)[0];
+    const key = this.questionPicker.nextQuestion();
     const fact = this.state.facts[key];
     const responses = [fact.response];
     const otherResponses = this.state.responses.filter((response) => response !== fact.response);
@@ -166,7 +199,10 @@ class App extends React.Component<{},AppState> {
     const numAnswered = this.state.numAnswered + 1;
     let numCorrect = this.state.numCorrect;
     if (r === this.state.question.fact.response) {
+      this.questionPicker.feedback(this.state.question.fact.prompt, true);
       numCorrect++;
+    } else {
+      this.questionPicker.feedback(this.state.question.fact.prompt, false);
     }
     this.setState({
       numAnswered: numAnswered,
