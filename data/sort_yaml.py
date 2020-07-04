@@ -65,4 +65,4 @@ print(f'Heisig6 characters: {len(heisig6_yamls)}', file=sys.stderr)
 
 sorted_heisig6_yamls=sorted(heisig6_yamls, key=heisig6_num)
 
-print(dump(heisig6_yamls, Dumper=Dumper, allow_unicode=True))
+print(dump(sorted_heisig6_yamls, Dumper=Dumper, allow_unicode=True))
