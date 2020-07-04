@@ -78,6 +78,7 @@ interface AppState {
   facts: Record<string,Fact>;
   responses: string[];
   question: Question;
+  maxQuestions: number;
   answer?: string;
 
   numCorrect: number;
@@ -87,6 +88,7 @@ interface AppState {
 
 class App extends React.Component<{},AppState> {
   private questionPicker: QuestionPicker;
+  private mounted: boolean = false;
   
   static emptyQuestion = {
     fact: {
@@ -106,19 +108,9 @@ class App extends React.Component<{},AppState> {
 
     // Start async get call
     xhr('GET', data).then((req) => {
+      const maxQuestions = 30;
       const data = yaml.load(req.response);
-      const prompts = Object.keys(data.facts);
-      this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
-      const responses = prompts.map((prompt: string) => data.facts[prompt].response);
-      this.state = {
-        facts: data.facts,
-        responses: responses,
-        question: App.emptyQuestion,
-
-        numCorrect: 0,
-        numAnswered: 0,
-        seenSet: {},
-      };
+      this.setQuestions(maxQuestions, data.facts);
       this.nextQuestion();
     }).catch((err) => console.error(err));
 
@@ -127,11 +119,43 @@ class App extends React.Component<{},AppState> {
       facts: {},
       responses: [],
       question: App.emptyQuestion,
+      maxQuestions: 0,
 
       numCorrect: 0,
       numAnswered: 0,
       seenSet: {},
     };
+  }
+
+  componentDidMount() {
+    this.mounted = true;
+  }
+
+  setQuestions(maxQuestions: number, facts: Record<string,Fact>) {
+    const prompts = Object.keys(facts).slice(0, maxQuestions)
+    this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
+    const responses = prompts.map((prompt: string) => facts[prompt].response);
+    if (this.mounted) {
+      this.setState({
+        facts: facts,
+        responses: responses,
+        question: App.emptyQuestion,
+        maxQuestions: maxQuestions,
+      });
+    } else {
+      // eslint-disable-next-line
+      this.state = {
+        facts: facts,
+        responses: responses,
+        question: App.emptyQuestion,
+        maxQuestions: maxQuestions,
+
+        numCorrect: this.state.numCorrect,
+        numAnswered: this.state.numAnswered,
+        seenSet: this.state.seenSet,
+      };
+    }
+    this.nextQuestion();
   }
   
   nextQuestion() {
@@ -160,12 +184,22 @@ class App extends React.Component<{},AppState> {
         fact: fact,
         responses: shuffle(responses),
       },
-      answer: undefined,
+      maxQuestions: this.state.maxQuestions,
+
+      numCorrect: this.state.numCorrect,
+      numAnswered: this.state.numAnswered,
       seenSet: seenSet,
+      answer: undefined,
     };
     console.log('nextQuestion() new state');
     console.dir(newState);
-    this.setState(newState);
+
+    if (this.mounted) {
+      this.setState(newState);
+    } else {
+      // eslint-disable-next-line
+      this.state = newState;
+    }
   }
 
   handleClick(r: string) {
