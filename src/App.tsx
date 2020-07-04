@@ -48,8 +48,6 @@ const Mnemonic = styled.h3``;
 interface SummaryProps {
   answered: number;
   correct: number;
-  seen: number;
-  total: number;
 }
 
 function Summary(props: SummaryProps) {
@@ -57,7 +55,6 @@ function Summary(props: SummaryProps) {
     <div>
       <div>Correct: {props.correct}</div>
       <div>Answered: {props.answered}</div>
-      <div>Seen: {props.seen}/{props.total}</div>
     </div>
   )
 }
@@ -111,7 +108,6 @@ class App extends React.Component<{},AppState> {
       const maxQuestions = 30;
       const data = yaml.load(req.response);
       this.setQuestions(maxQuestions, data.facts);
-      this.nextQuestion();
     }).catch((err) => console.error(err));
 
     // Initialize empty state while we wait for the xhr to finish
@@ -131,17 +127,29 @@ class App extends React.Component<{},AppState> {
     this.mounted = true;
   }
 
+  decMaxQuestions() {
+    if (this.state.maxQuestions - 1 < 4) return;
+    this.setQuestions(this.state.maxQuestions - 1, this.state.facts);
+  }
+
+  incMaxQuestions() {
+    if (this.state.maxQuestions + 1 > Object.keys(this.state.facts).length) return;
+    this.setQuestions(this.state.maxQuestions + 1, this.state.facts);
+  }
+
   setQuestions(maxQuestions: number, facts: Record<string,Fact>) {
     const prompts = Object.keys(facts).slice(0, maxQuestions)
     this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
     const responses = prompts.map((prompt: string) => facts[prompt].response);
     if (this.mounted) {
-      this.setState({
+      const newState = {
         facts: facts,
         responses: responses,
         question: App.emptyQuestion,
         maxQuestions: maxQuestions,
-      });
+        seenSet: {},
+      };
+      this.setState(newState);
     } else {
       // eslint-disable-next-line
       this.state = {
@@ -152,53 +160,52 @@ class App extends React.Component<{},AppState> {
 
         numCorrect: this.state.numCorrect,
         numAnswered: this.state.numAnswered,
-        seenSet: this.state.seenSet,
+        seenSet: {},
       };
     }
-    this.nextQuestion();
+    this.nextQuestion({});
   }
   
-  nextQuestion() {
-    console.log('nextQuestion() called');
+  nextQuestion(seenSet: Record<string,{}>) {
     if (Object.keys(this.state.facts).length === 0) {
-      console.log('nextQuestion() empty facts');
       return
     }
     if (!this.questionPicker.isReady()) {
-      console.log("this.questionPicker isn't ready");
       return;
     }
-    console.log('nextQuestion() this.state');
-    console.dir(this.state);
     const key = this.questionPicker.nextQuestion();
     const fact = this.state.facts[key];
     const responses = [fact.response];
     const otherResponses = this.state.responses.filter((response) => response !== fact.response);
     responses.push(...randomChoices(otherResponses, 3));
-    const seenSet = _.clone(this.state.seenSet);
-    seenSet[fact.prompt] = {};
-    const newState = {
-      facts: this.state.facts,
-      responses: this.state.responses,
-      question: {
-        fact: fact,
-        responses: shuffle(responses),
-      },
-      maxQuestions: this.state.maxQuestions,
-
-      numCorrect: this.state.numCorrect,
-      numAnswered: this.state.numAnswered,
-      seenSet: seenSet,
-      answer: undefined,
-    };
-    console.log('nextQuestion() new state');
-    console.dir(newState);
+    const newSeenSet = _.clone(seenSet);
+    newSeenSet[fact.prompt] = {};
 
     if (this.mounted) {
-      this.setState(newState);
+      this.setState({
+        question: {
+          fact: fact,
+          responses: shuffle(responses),
+        },
+        answer: undefined,
+        seenSet: newSeenSet,
+      });
     } else {
       // eslint-disable-next-line
-      this.state = newState;
+      this.state = {
+        facts: this.state.facts,
+        responses: this.state.responses,
+        question: {
+          fact: fact,
+          responses: shuffle(responses),
+        },
+        maxQuestions: this.state.maxQuestions,
+
+        numCorrect: this.state.numCorrect,
+        numAnswered: this.state.numAnswered,
+        seenSet: newSeenSet,
+        answer: undefined,
+      };
     }
   }
 
@@ -238,19 +245,19 @@ class App extends React.Component<{},AppState> {
       if (this.hasAnswered()) {
         if (this.isCorrectAnswer(response)) {
           return (
-            <CorrectButton key={i} onClick={() => this.nextQuestion()}>
+            <CorrectButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
               {response}
             </CorrectButton>
           );
         } else if (this.isWrongAnswer(response)) {
           return (
-            <WrongButton key={i} onClick={() => this.nextQuestion()}>
+            <WrongButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
               {response}
             </WrongButton>
           );
         }
         return (
-          <BigButton key={i} onClick={() => this.nextQuestion()}>
+          <BigButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
             {response}
           </BigButton>
         );
@@ -286,6 +293,8 @@ class App extends React.Component<{},AppState> {
   }
 
   render() {
+    const numSeen = Object.keys(this.state.seenSet).length;
+    const numTotal = Object.keys(this.state.facts).length;
     return (
       <Container>
         <header>
@@ -296,9 +305,14 @@ class App extends React.Component<{},AppState> {
         <Summary
           answered={ this.state.numAnswered }
           correct={ this.state.numCorrect }
-          seen={ Object.keys(this.state.seenSet).length }
-          total={ Object.keys(this.state.facts).length }
         />
+        <div>
+          <span>Seen { numSeen } / </span>
+          <button onClick={() => this.decMaxQuestions()}>-</button>
+          <span>{ this.state.maxQuestions }</span>
+          <button onClick={() => this.incMaxQuestions()}>+</button>
+          <span> / { numTotal } total</span>
+        </div>
         {this.renderCard()}
         {this.renderMnemonic()}
       </Container>
