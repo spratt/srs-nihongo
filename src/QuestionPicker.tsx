@@ -1,4 +1,4 @@
-import {randomChoices} from './random';
+import {shuffle,randomChoices} from './random';
 
 export const EndOfTime = new Date(8640000000000000);
 
@@ -24,7 +24,7 @@ export class RandomQuestionPicker implements QuestionPicker {
   private prompts: NonEmptyArray<string>;
 
   constructor(prompts: NonEmptyArray<string>) {
-    this.prompts = prompts;
+    this.prompts = (shuffle(prompts) as NonEmptyArray<string>);
   }
 
   nextQuestion(): string {
@@ -33,6 +33,49 @@ export class RandomQuestionPicker implements QuestionPicker {
 
   feedback(s: string, b: boolean) {
     console.log(`RandomQuestionPicker.feedback(s = ${s}, b = ${b})`);
+  }
+
+  isReady() { return true }
+  whenReady() { return new Date() }
+}
+
+interface PromptValue {
+  prompt: string;
+  value: number;
+}
+
+export class SimpleSRSQuestionPicker implements QuestionPicker {
+  private promptValues: PromptValue[];
+
+  constructor(prompts: NonEmptyArray<string>) {
+    this.promptValues = shuffle(prompts).map((prompt) => {
+      return {
+        prompt: prompt,
+        value: 1,
+      };
+    });
+  }
+
+  nextQuestion(): string {
+    return this.promptValues[0].prompt;
+  }
+
+  findPromptValue(s: string): PromptValue | null {
+    const pvs= this.promptValues.filter((pv) => pv.prompt === s);
+    if (pvs.length === 0) return null;
+    return pvs[0];
+  }
+
+  feedback(s: string, correct: boolean) {
+    const nullablePV = this.findPromptValue(s);
+    if (nullablePV === null) return;
+    const pv: PromptValue = nullablePV as PromptValue;
+    if (correct) pv.value *= 1.1;
+    else pv.value *= 0.9;
+    this.promptValues.sort((pv1, pv2) => {
+      return pv1.value - pv2.value;
+    });
+    console.dir(this.promptValues);
   }
 
   isReady() { return true }

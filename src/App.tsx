@@ -5,7 +5,7 @@ import * as _ from 'lodash';
 
 import xhr from './http';
 import {shuffle, randomChoices} from './random';
-import {NonEmptyArray, QuestionPicker, NullQuestionPicker, RandomQuestionPicker} from './QuestionPicker';
+import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPicker} from './QuestionPicker';
 
 import data from './data.yaml';
 
@@ -108,7 +108,7 @@ class App extends React.Component<{},AppState> {
     xhr('GET', data).then((req) => {
       const data = yaml.load(req.response);
       const prompts = Object.keys(data.facts);
-      this.questionPicker = new RandomQuestionPicker(prompts as NonEmptyArray<string>);
+      this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
       const responses = prompts.map((prompt: string) => data.facts[prompt].response);
       this.state = {
         facts: data.facts,
