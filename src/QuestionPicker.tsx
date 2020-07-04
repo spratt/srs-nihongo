@@ -47,6 +47,7 @@ interface PromptValue {
 export class SimpleSRSQuestionPicker implements QuestionPicker {
   private promptValues: PromptValue[];
   private valueKey: string = 'srsValues';
+  private lastQuestion: string = '';
 
   constructor(prompts: NonEmptyArray<string>) {
     const oldValues = JSON.parse(window.localStorage.getItem(this.valueKey) || '{}');
@@ -59,7 +60,14 @@ export class SimpleSRSQuestionPicker implements QuestionPicker {
   }
 
   nextQuestion(): string {
-    return this.promptValues[0].prompt;
+    const first = this.promptValues[0].prompt;
+    if (this.lastQuestion === first) {
+      const second = this.promptValues[1].prompt;
+      this.lastQuestion = second;
+      return second;
+    }
+    this.lastQuestion = first;
+    return first;
   }
 
   findPromptValue(s: string): PromptValue | null {
@@ -74,6 +82,7 @@ export class SimpleSRSQuestionPicker implements QuestionPicker {
     const pv: PromptValue = nullablePV as PromptValue;
     if (correct) pv.value *= 1.1;
     else pv.value *= 0.9;
+    this.promptValues = shuffle(this.promptValues);
     this.promptValues.sort((pv1, pv2) => {
       return pv1.value - pv2.value;
     });
