@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "7ea5a53ff2b2a0eca29e730fc166350e",
+    "revision": "0add9969c8d5107377e0642f7e55d9ef",
     "url": "/srs-nihongo/build/index.html"
   },
   {
-    "revision": "96b40e363f6c4fb55ee9",
+    "revision": "96c3c830eb314943b37f",
     "url": "/srs-nihongo/build/static/css/main.5ecd60fb.chunk.css"
   },
   {
@@ -16,15 +16,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/srs-nihongo/build/static/js/2.2d5e2797.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "96b40e363f6c4fb55ee9",
-    "url": "/srs-nihongo/build/static/js/main.86adb7f4.chunk.js"
+    "revision": "96c3c830eb314943b37f",
+    "url": "/srs-nihongo/build/static/js/main.518e7677.chunk.js"
   },
   {
     "revision": "c2152c1e01d31e66da13",
     "url": "/srs-nihongo/build/static/js/runtime-main.c513082d.js"
   },
   {
-    "revision": "7afd00795688747a7e1b827bd7a049f7",
-    "url": "/srs-nihongo/build/static/media/data.7afd0079.yaml"
+    "revision": "95ee3d75bd67090c0d41954ce5af4ed8",
+    "url": "/srs-nihongo/build/static/media/data.95ee3d75.yaml"
   }
 ]);

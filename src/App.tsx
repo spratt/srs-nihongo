@@ -74,7 +74,7 @@ interface Question {
 }
 
 interface AppState {
-  facts: Fact[];
+  facts: Record<string,Fact>;
   responses: string[];
   question: Question;
   answer?: string;
@@ -102,7 +102,8 @@ class App extends React.Component<{},AppState> {
     // Start async get call
     xhr('GET', data).then((req) => {
       const data = yaml.load(req.response);
-      const responses = data.facts.map((fact: Fact) => fact.response);
+      const prompts = Object.keys(data.facts);
+      const responses = prompts.map((prompt: string) => data.facts[prompt].response);
       this.state = {
         facts: data.facts,
         responses: responses,
@@ -117,7 +118,7 @@ class App extends React.Component<{},AppState> {
 
     // Initialize empty state while we wait for the xhr to finish
     this.state = {
-      facts: [],
+      facts: {},
       responses: [],
       question: App.emptyQuestion,
 
@@ -129,13 +130,14 @@ class App extends React.Component<{},AppState> {
   
   nextQuestion() {
     console.log('nextQuestion() called');
-    if (this.state.facts.length === 0) {
+    if (Object.keys(this.state.facts).length === 0) {
       console.log('nextQuestion() empty facts');
       return
     }
     console.log('nextQuestion() this.state');
     console.dir(this.state);
-    const fact = randomChoices(this.state.facts, 1)[0];
+    const key = randomChoices(Object.keys(this.state.facts), 1)[0];
+    const fact = this.state.facts[key];
     const responses = [fact.response];
     const otherResponses = this.state.responses.filter((response) => response !== fact.response);
     responses.push(...randomChoices(otherResponses, 3));
@@ -248,7 +250,7 @@ class App extends React.Component<{},AppState> {
           answered={ this.state.numAnswered }
           correct={ this.state.numCorrect }
           seen={ Object.keys(this.state.seenSet).length }
-        total={ this.state.facts.length }
+          total={ Object.keys(this.state.facts).length }
         />
         {this.renderCard()}
         {this.renderMnemonic()}
