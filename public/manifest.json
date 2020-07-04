@@ -1,6 +1,7 @@
 {
-  "short_name": "React App",
-  "name": "Create React App Sample",
+  "name": "S.R.S. 日本語",
+  "short_name": "S.R.S. 日本語",
+  "description": "Learn Japanese through a Spaced Repitition System (S.R.S.).",
   "icons": [
     {
       "src": "favicon.ico",
@@ -18,6 +19,12 @@
       "sizes": "512x512"
     }
   ],
+  "developer": {
+    "name": "Simon Pratt",
+    "url": "https://blog.pr4tt.com/srs-nihongo/build/"
+  },
+  "default_locale": "en",
+  "type": "web",
   "start_url": ".",
   "display": "standalone",
   "theme_color": "#000000",
