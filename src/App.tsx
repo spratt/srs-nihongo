@@ -86,6 +86,7 @@ interface AppState {
 class App extends React.Component<{},AppState> {
   private questionPicker: QuestionPicker;
   private mounted: boolean = false;
+  private maxQuestionsKey = 'maxQuestions';
   
   static emptyQuestion = {
     fact: {
@@ -103,9 +104,11 @@ class App extends React.Component<{},AppState> {
 
     this.questionPicker = new NullQuestionPicker();
 
+    const maxQuestions =
+      Number(window.localStorage.getItem(this.maxQuestionsKey)) || 30;
+
     // Start async get call
     xhr('GET', data).then((req) => {
-      const maxQuestions = 30;
       const data = yaml.load(req.response);
       this.setQuestions(maxQuestions, data.facts);
     }).catch((err) => console.error(err));
@@ -115,7 +118,7 @@ class App extends React.Component<{},AppState> {
       facts: {},
       responses: [],
       question: App.emptyQuestion,
-      maxQuestions: 0,
+      maxQuestions: maxQuestions,
 
       numCorrect: 0,
       numAnswered: 0,
@@ -138,6 +141,7 @@ class App extends React.Component<{},AppState> {
   }
 
   setQuestions(maxQuestions: number, facts: Record<string,Fact>) {
+    window.localStorage.setItem(this.maxQuestionsKey, String(maxQuestions));
     const prompts = Object.keys(facts).slice(0, maxQuestions)
     this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
     const responses = prompts.map((prompt: string) => facts[prompt].response);
