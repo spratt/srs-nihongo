@@ -8,7 +8,7 @@ Usage:
 
 '''
 import sys
-from multiprocessing import Process, Queue
+from collections import OrderedDict
 
 from yaml import load, dump
 try:
@@ -24,11 +24,30 @@ def heisig6_num(ob):
                     return int(ref['text'])
     return sys.maxsize
 
+def meaning(ob):
+    if 'reading_meaning' in ob and 'rmgroup' in ob['reading_meaning']:
+        rmgroup=ob['reading_meaning']['rmgroup']
+        if 'meaning' in rmgroup and len(rmgroup['meaning']) > 0:
+            return rmgroup['meaning'][0]
+    return 'Unknown'
+
 print('Indexing', file=sys.stderr)
 data=load(sys.stdin, Loader=Loader)
 
-print('Sorting', file=sys.stderr)
-sorted_data=sorted(data, key=heisig6_num)
+print('Restructuring', file=sys.stderr)
+# Use an OrderedDict to preserve sorted order
+rst_data=OrderedDict()
+for ob in data:
+    number=heisig6_num(ob)
+    prompt=ob['literal']
+    response=meaning(ob)
+    mnemonic=response
+    rst_data[prompt] = {
+        'number': number,
+        'prompt': prompt,
+        'response': response,
+        'mnemonic': mnemonic,
+    }
 
 print('Dumping', file=sys.stderr)
-print(dump(sorted_data, Dumper=Dumper, allow_unicode=True))
+print(dump({'facts':rst_data}, Dumper=Dumper, allow_unicode=True))
