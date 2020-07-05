@@ -1,4 +1,12 @@
 facts:
+  ⼁:
+    prompt: ⼁
+    response: walking stick
+    mnemonic: >-
+      It's not one of those fancy walking sticks with a handle, it's
+      really just a relatively straight stick that someone picked up
+      while walking in a forest and just started leaning on as they
+      continued to walk.
   口:
     number: 11
     prompt: 口
@@ -25,9 +33,11 @@ facts:
       at the bottom and a single tooth at the top.
   ノ:
     prompt: ノ
-    response: nose
+    response: a drop of, eyedropper
     mnemonic: >-
-      The gently sloping bridge of someone's nose.
+      This radical normally appears as a small flick of the pen, which
+      looks like just a drop of ink.  Almost like you could make the
+      mark with an eyedropper of ink.
   乙:
     number: 75
     prompt: 乙
@@ -50,13 +60,16 @@ facts:
   一:
     number: 1
     prompt: 一
-    response: 1
+    response: 1, floor, ceiling
     mnemonic: >-
-      One stick lying horizontally on the ground.
+      One stick lying horizontally on the floor.  If you're upside
+      down, it's actually lying on the ceiling.
   二:
     number: 2
     prompt: 二
     response: 2
+    related:
+      - 一
     mnemonic: >-
       Two sticks lying parallel on the ground.
   三:
@@ -109,18 +122,20 @@ facts:
   七:
     number: 7
     prompt: 七
-    response: 7
+    response: 7, diced
     related:
       - ノ
       - 乙
       - 匕
     mnemonic: >-
       An upside-down 7, crossed out like the kids used to do back in
-      elementary.
+      elementary.  The human mind has trouble keeping more than 7
+      things in short-term memory, so naturally we tend to break
+      things down (or dice them) into 7 pieces.
   八:
     number: 8
     prompt: 八
-    response: eight
+    response: 8
     related:
       - ハ
     mnemonic: >-
@@ -130,7 +145,7 @@ facts:
   九:
     number: 9
     prompt: 九
-    response: nine
+    response: 9, baseball
     mnemonic: >-
       A baseball player just beginning their slide to home base.  How
       many players are on a baseball team?  9!  I know that because I
@@ -138,29 +153,38 @@ facts:
   十:
     number: 10
     prompt: 十
-    response: ten
+    response: 10, needle
+    related:
+      - ⼁
+      - 一
     mnemonic: >-
       The roman numeral X rotated slightly.
   日:
     number: 12
     prompt: 日
-    response: day
+    response: day, sun, tongue wagging in the mouth
     mnemonic: >-
-      The rising sun.
+      A very stylized sun.
   月:
     number: 13
     prompt: 月
-    response: month
+    response: month, moon, flesh, part of the body
     mnemonic: >-
-      The moon rising over a body of water, its reflection rippling with
-      the waves.  The moon's phases change in a 28-day, or approximately
-      monthly, cycle.
+      The moon rising over a body of water, its reflection rippling
+      with the waves.  The moon's phases change in a 28-day, or
+      approximately monthly, cycle.  As a radical, it sometimes means
+      moon but more often it means flesh or part of the body.  This is
+      because the actual character for flesh, 肉, as a radical was
+      simplified over the years until it looked like, and subsequently
+      merged with, this character.
   田:
     number: 14
     prompt: 田
-    response: rice field
+    response: rice field, brain
     mnemonic: >-
       A square rice field evenly divided into 4 square rice paddies.
+      The brain also has 4 parts: forebrain, midbrain, hindbrain, and
+      spinal column.  (That's only somewhat true.)
   目:
     number: 15
     prompt: 目
@@ -269,12 +293,13 @@ facts:
   早:
     number: 26
     prompt: 早
-    response: early
+    response: early, sunflower
     related:
       - 日
       - 十
     mnemonic: >-
-      The sun rises in 10 minutes.  It's so early.  😪
+      The sun rises in 10 minutes.  It's so early.  Also this
+      character looks like a sunflower.
   旭:
     number: 27
     prompt: 旭
@@ -308,87 +333,168 @@ facts:
   旦:
     number: 30
     prompt: 旦
-    response: daybreak
+    response: nightbreak
     related:
       - 日
       - 一
     mnemonic: >-
-      As the sun peeks over the horizon 一, it's daybreak.
+      As the sun 日 sets over the horizon 一, it's nightbreak.
   胆:
-    mnemonic: gall bladder
     number: 31
     prompt: 胆
     response: gall bladder
+    related:
+      - 月
+      - 日
+      - 一
+    mnemonic: >-
+      月 meaning part of the body plus nightbreak gives gall bladder.
+      Chinese medicine holds that the gall bladder is at peak
+      functionality between 11pm and 1am.  So it's literally the night
+      body part.
   亘:
-    mnemonic: span
     number: 32
     prompt: 亘
     response: span
+    related:
+      - 日
+      - 一
+    mnemonic: >-
+      A day spans from sunrise to sunset.
   凹:
-    mnemonic: concave
     number: 33
     prompt: 凹
     response: concave
+    mnemonic: >-
+      Look at the concave region on that polygon!
   凸:
-    mnemonic: convex
     number: 34
     prompt: 凸
     response: convex
+    mnemonic: >-
+      It's not strictly convex but you get the idea.
   旧:
-    mnemonic: old times
     number: 35
     prompt: 旧
-    response: old times
+    response: olden times
+    related:
+      - ⼁
+      - 日
+    mnemonic: >-
+      The day you need a walking stick is the day you start missing
+      the olden days when you didn't need a walking stick.
   自:
-    mnemonic: oneself
     number: 36
     prompt: 自
     response: oneself
+    related:
+      - ノ
+      - 目
+    mnemonic: >-
+      Your nose is a drop of flesh between your eyes.  Ever seen an
+      animé character's body language when they're all like "me??"
+      They will often point at their nose.
   白:
-    mnemonic: white
     number: 37
     prompt: 白
-    response: white
+    response: white, bird, dove
+    related:
+      - ノ
+      - 日
+    mnemonic: >-
+      The light from the sun has every frequency of light, so it
+      appears white.  You can see this if you ever see sunlight
+      refracted in a drop of water.  You know what's also white?  Bird
+      poop.
   百:
-    mnemonic: hundred
     number: 38
     prompt: 百
     response: hundred
+    related:
+      - 一
+      - 白
+    mnemonic: >-
+      In Japan, your 99th year is your "white year" because if you
+      subtract 一 from 百 you get 白.
   中:
-    mnemonic: in
     number: 39
     prompt: 中
     response: in
+    related:
+      - ⼁
+      - 口
+    mnemonic: >-
+      It would be very hard to put a whole walking stick in your
+      mouth.
   千:
-    mnemonic: thousand
     number: 40
     prompt: 千
     response: thousand
+    related:
+      - ノ
+      - 十
+    mnemonic: >-
+      There are about 1000 drops of ink in 10 standard eyedroppers.
   舌:
-    mnemonic: tongue
     number: 41
     prompt: 舌
     response: tongue
+    related:
+      - 千
+      - 口
+    mnemonic: >-
+      A thousand mouths speaking the same language.  A "tongue" is a
+      synonym for language.
   升:
-    mnemonic: measuring box
     number: 42
     prompt: 升
     response: measuring box
+    related:
+      - 千
+      - 十
+    mnemonic: >-
+      The Japanese used a standard-sized wooden box (called a masu) to
+      measure out equal portions of rice during the feudal period.
+      The kanji breaks down into 1000 and needles, so you could
+      imagine each grain of rice as a needle, or you could imagine
+      measuring 1000 needles in such a box.
   昇:
-    mnemonic: rise up
     number: 43
     prompt: 昇
     response: rise up
+    related:
+      - 日
+      - 升
+    mnemonic: >-
+      A sun rising up out of a measuring box.  Who put the sun in a
+      measuring box?
   丸:
-    mnemonic: round
     number: 44
     prompt: 丸
-    response: round
+    response: round, fat man
+    related:
+      - ノ
+      - 九
+    mnemonic: >-
+      Add a drop to 9, and you get 10, which is a round number.  A
+      sufficiently fat man is approximately round.
+  亅:
+    prompt: 亅
+    response: hook
+    mnemonic: >-
+      A hook at the end of a walking stick.
   寸:
-    mnemonic: measurement
     number: 45
     prompt: 寸
-    response: measurement
+    response: measurement, glue
+    related:
+      - ノ
+      - 十
+      - 亅
+    mnemonic: >-
+      I know that you've dropped 10 hooks, because I've been
+      measuring.  We need to glue these hooks to your hands to keep
+      you from dropping them.
   肘:
     mnemonic: elbow
     number: 46
