@@ -8,6 +8,7 @@ import TabBar, { TabType } from './TabBar';
 
 import dataKanji from './data.yaml';
 import dataHiragana from './data_hiragana.yaml';
+import dataKatakana from './data_katakana.yaml';
 
 interface Fact {
   prompt: string;
@@ -140,8 +141,8 @@ class App extends React.Component<object, AppState> {
 
     // Initialize data for each tab
     this.initializeTab('hiragana', dataHiragana.facts, maxQuestionsHiragana);
+    this.initializeTab('katakana', dataKatakana.facts, maxQuestionsKatakana);
     this.initializeTab('kanji', dataKanji.facts, maxQuestionsKanji);
-    // Katakana will be initialized when we have the data
   }
 
   override componentDidMount(): void {

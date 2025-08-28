@@ -1,0 +1,288 @@
+facts:
+  ア:
+    prompt: ア
+    response: a
+    related: []
+    mnemonic: "An axe cutting through wood, making an 'ah' sound."
+
+  イ:
+    prompt: イ
+    response: i
+    related: []
+    mnemonic: "An eagle diving down. Think 'eee' for the sound."
+
+  ウ:
+    prompt: ウ
+    response: u
+    related: []
+    mnemonic: "A sideways 'u' shape. Simple and direct."
+
+  エ:
+    prompt: エ
+    response: e
+    related: []
+    mnemonic: "Elevator doors opening. Think 'eh' sound."
+
+  オ:
+    prompt: オ
+    response: o
+    related: []
+    mnemonic: "A man doing a karate kick. 'Oh!' he shouts."
+
+  カ:
+    prompt: カ
+    response: ka
+    related: []
+    mnemonic: "A knife cutting. Think 'ka' for 'cut'."
+
+  キ:
+    prompt: キ
+    response: ki
+    related: []
+    mnemonic: "A key with teeth on both sides."
+
+  ク:
+    prompt: ク
+    response: ku
+    related: []
+    mnemonic: "A bird's beak from the side. 'Coo' like a pigeon."
+
+  ケ:
+    prompt: ケ
+    response: ke
+    related: []
+    mnemonic: "K shape on its side. Think 'K' for 'ke'."
+
+  コ:
+    prompt: コ
+    response: ko
+    related: []
+    mnemonic: "Two corners of a box. Think 'corner' for 'ko'."
+
+  サ:
+    prompt: サ
+    response: sa
+    related: []
+    mnemonic: "Three slashes from a samurai sword."
+
+  シ:
+    prompt: シ
+    response: shi
+    related: []
+    mnemonic: "She has a smiley face tilted to the side."
+
+  ス:
+    prompt: ス
+    response: su
+    related: []
+    mnemonic: "A swing set. Think 'swing' starts with 's'."
+
+  セ:
+    prompt: セ
+    response: se
+    related: []
+    mnemonic: "Say it! A mouth opening to speak."
+
+  ソ:
+    prompt: ソ
+    response: so
+    related: []
+    mnemonic: "A single sewing stitch. 'So' simple!"
+
+  タ:
+    prompt: タ
+    response: ta
+    related: []
+    mnemonic: "A tie hanging down. Think 'tie' for 'ta'."
+
+  チ:
+    prompt: チ
+    response: chi
+    related: []
+    mnemonic: "A cheerleader doing a split jump."
+
+  ツ:
+    prompt: ツ
+    response: tsu
+    related: []
+    mnemonic: "Two eyes with a big smile. 'Tsu' happy!"
+
+  テ:
+    prompt: テ
+    response: te
+    related: []
+    mnemonic: "A telephone pole with a wire."
+
+  ト:
+    prompt: ト
+    response: to
+    related: []
+    mnemonic: "A totem pole standing tall."
+
+  ナ:
+    prompt: ナ
+    response: na
+    related: []
+    mnemonic: "A knife in a holder. 'Nah, don't touch!'"
+
+  ニ:
+    prompt: ニ
+    response: ni
+    related: []
+    mnemonic: "Two neat lines. Think 'neat' for 'ni'."
+
+  ヌ:
+    prompt: ヌ
+    response: nu
+    related: []
+    mnemonic: "Noodles crossed over each other."
+
+  ネ:
+    prompt: ネ
+    response: ne
+    related: []
+    mnemonic: "A nest in a tree. Think 'nest' for 'ne'."
+
+  ノ:
+    prompt: ノ
+    response: no
+    related: []
+    mnemonic: "A simple 'no' slash mark."
+
+  ハ:
+    prompt: ハ
+    response: ha
+    related: []
+    mnemonic: "A house with two walls. 'Ha ha!' from inside."
+
+  ヒ:
+    prompt: ヒ
+    response: hi
+    related: []
+    mnemonic: "He is sitting down, waving hi."
+
+  フ:
+    prompt: フ
+    response: fu
+    related: []
+    mnemonic: "A hood from the side. Think 'hood' sounds like 'fu'."
+
+  ヘ:
+    prompt: ヘ
+    response: he
+    related: []
+    mnemonic: "A hat or mountain peak. He climbed it."
+
+  ホ:
+    prompt: ホ
+    response: ho
+    related: []
+    mnemonic: "A holy cross with a hat on top."
+
+  マ:
+    prompt: マ
+    response: ma
+    related: []
+    mnemonic: "Mama's two eyes looking down at you."
+
+  ミ:
+    prompt: ミ
+    response: mi
+    related: []
+    mnemonic: "Three lines like the 'mi' in do-re-mi."
+
+  ム:
+    prompt: ム
+    response: mu
+    related: []
+    mnemonic: "A cow's head from the front. 'Moo!'"
+
+  メ:
+    prompt: メ
+    response: me
+    related: []
+    mnemonic: "An 'X' marks 'me' on the map."
+
+  モ:
+    prompt: モ
+    response: mo
+    related: []
+    mnemonic: "More horizontal lines stacked up."
+
+  ヤ:
+    prompt: ヤ
+    response: ya
+    related: []
+    mnemonic: "An arrow pointing to say 'yeah!'"
+
+  ユ:
+    prompt: ユ
+    response: yu
+    related: []
+    mnemonic: "A unique box with an opening."
+
+  ヨ:
+    prompt: ヨ
+    response: yo
+    related: []
+    mnemonic: "Three horizontal lines. Yo! Count them!"
+
+  ラ:
+    prompt: ラ
+    response: ra
+    related: []
+    mnemonic: "A radio antenna picking up signals."
+
+  リ:
+    prompt: リ
+    response: ri
+    related: []
+    mnemonic: "Two reeds standing in water."
+
+  ル:
+    prompt: ル
+    response: ru
+    related: []
+    mnemonic: "Looks like a rudder or roots growing down."
+
+  レ:
+    prompt: レ
+    response: re
+    related: []
+    mnemonic: "A razor blade. Think 'razor' for 're'."
+
+  ロ:
+    prompt: ロ
+    response: ro
+    related: []
+    mnemonic: "A robot's square mouth. 'Ro-bot!'"
+
+  ワ:
+    prompt: ワ
+    response: wa
+    related: []
+    mnemonic: "A wave crashing down. 'Wa' for wave."
+
+  ヰ:
+    prompt: ヰ
+    response: wi
+    related: []
+    mnemonic: "An old character for 'wi', rarely used now."
+
+  ヱ:
+    prompt: ヱ
+    response: we
+    related: []
+    mnemonic: "We don't use this old character much anymore."
+
+  ヲ:
+    prompt: ヲ
+    response: wo
+    related: []
+    mnemonic: "Whoa! A special particle character."
+
+  ン:
+    prompt: ン
+    response: n
+    related: []
+    mnemonic: "Like a simplified 'n'. The only consonant ending."
