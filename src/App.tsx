@@ -30,10 +30,6 @@ const Container = styled.div`
     width: 48rem;
     margin: 0 auto;
   }
-  
-  @media screen and (min-width: 768px) {
-    padding-bottom: 4rem; /* Extra space for fixed credits on desktop */
-  }
 `;
 
 const Title = styled.h1`
@@ -71,29 +67,24 @@ const MnemonicImage = styled.img`
   border: 1px solid #ddd;
 `;
 
-const Credits = styled.div`
+const CreditContent = styled.div`
   text-align: center;
-  font-size: 0.8rem;
-  color: #666;
+  padding: 2rem;
+  line-height: 1.6;
+  color: #444;
   
-  /* Mobile: render in document flow after content */
-  margin-top: 2rem;
-  padding: 1rem;
-  border-top: 1px solid #eee;
+  h2 {
+    color: palevioletred;
+    margin-bottom: 1.5rem;
+  }
   
-  /* Desktop: fixed to bottom of screen */
-  @media screen and (min-width: 768px) {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    margin-top: 0;
-    padding: 0.5rem;
-    background-color: rgba(255, 255, 255, 0.95);
-    backdrop-filter: blur(5px);
-    border-top: 1px solid #ddd;
-    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
+  a {
+    color: palevioletred;
+    text-decoration: none;
+    
+    &:hover {
+      text-decoration: underline;
+    }
   }
 `;
 
@@ -529,17 +520,58 @@ class App extends React.Component<object, AppState> {
     }
   }
 
+  renderCreditTab(): React.JSX.Element {
+    return (
+      <CreditContent>
+        <h2>Credits</h2>
+        <p>
+          This project uses <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC 2</a>, 
+          hiragana images from <a href="https://www.tofugu.com/japanese/learn-hiragana/">Tofugu</a>, 
+          and katakana images from <a href="https://www.tofugu.com/japanese/learn-katakana/">Tofugu</a>.
+        </p>
+        <p>
+          Built with React and styled-components for learning Japanese through spaced repetition.
+        </p>
+        <p>
+          <a href="https://github.com/spratt/srs-nihongo" target="_blank" rel="noopener noreferrer">
+            View source code on GitHub
+          </a>
+        </p>
+      </CreditContent>
+    );
+  }
+
   handleTabChange = (tab: TabType): void => {
     this.setState({ activeTab: tab });
-    // If this tab has no current question, generate one
-    const tabState = this.state[tab];
-    if (tabState.question === App.emptyQuestion || tabState.question.fact.prompt === '') {
-      this.nextQuestionForTab(tab, tabState.seenSet);
+    // If this tab has no current question, generate one (except for credit tab)
+    if (tab !== 'credit') {
+      const tabState = this.state[tab as 'hiragana' | 'katakana' | 'kanji'];
+      if (tabState.question === App.emptyQuestion || tabState.question.fact.prompt === '') {
+        this.nextQuestionForTab(tab as 'hiragana' | 'katakana' | 'kanji', tabState.seenSet);
+      }
     }
   }
 
   override render(): React.JSX.Element {
-    const tabState = this.state[this.state.activeTab];
+    // Handle credit tab separately since it doesn't have tabState
+    if (this.state.activeTab === 'credit') {
+      return (
+        <Container>
+          <header>
+            <Title>
+              S.R.S. 日本語
+            </Title>
+          </header>
+          <TabBar
+            activeTab={this.state.activeTab}
+            onTabChange={this.handleTabChange}
+          />
+          {this.renderCreditTab()}
+        </Container>
+      );
+    }
+
+    const tabState = this.state[this.state.activeTab as 'hiragana' | 'katakana' | 'kanji'];
     const numSeen = Object.keys(tabState.seenSet).length;
     const numTotal = Object.keys(tabState.facts).length;
     return (
@@ -579,9 +611,6 @@ class App extends React.Component<object, AppState> {
         )}
         {this.renderCard()}
         {this.renderMnemonic()}
-        <Credits>
-          This project uses <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC 2</a>, hiragana images from <a href="https://www.tofugu.com/japanese/learn-hiragana/">Tofugu</a>, and katakana images from <a href="https://www.tofugu.com/japanese/learn-katakana/">Tofugu</a>.
-        </Credits>
       </Container>
     );
   }

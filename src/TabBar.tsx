@@ -26,7 +26,7 @@ const Tab = styled.button<{ $active: boolean }>`
   }
 `;
 
-export type TabType = 'hiragana' | 'katakana' | 'kanji';
+export type TabType = 'hiragana' | 'katakana' | 'kanji' | 'credit';
 
 interface TabBarProps {
   activeTab: TabType;
@@ -53,6 +53,12 @@ function TabBar({ activeTab, onTabChange }: TabBarProps): React.JSX.Element {
         onClick={() => onTabChange('kanji')}
       >
         Kanji
+      </Tab>
+      <Tab 
+        $active={activeTab === 'credit'} 
+        onClick={() => onTabChange('credit')}
+      >
+        Credit
       </Tab>
     </TabContainer>
   );
