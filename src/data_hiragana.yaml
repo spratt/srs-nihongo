@@ -286,3 +286,372 @@ facts:
     response: n
     related: []
     mnemonic: "The end of many Japanese words. Think 'end' for 'n'."
+
+  # Dakuten characters (゛ adds voicing)
+  が:
+    prompt: が
+    response: ga
+    related: []
+    mnemonic: "Ka with dakuten becomes Ga - the voiced version."
+
+  ぎ:
+    prompt: ぎ
+    response: gi
+    related: []
+    mnemonic: "Ki with dakuten becomes Gi - like 'gift'."
+
+  ぐ:
+    prompt: ぐ
+    response: gu
+    related: []
+    mnemonic: "Ku with dakuten becomes Gu - like 'goo'."
+
+  げ:
+    prompt: げ
+    response: ge
+    related: []
+    mnemonic: "Ke with dakuten becomes Ge - like 'get'."
+
+  ご:
+    prompt: ご
+    response: go
+    related: []
+    mnemonic: "Ko with dakuten becomes Go - ready, set, go!"
+
+  ざ:
+    prompt: ざ
+    response: za
+    related: []
+    mnemonic: "Sa with dakuten becomes Za - like 'pizza'."
+
+  じ:
+    prompt: じ
+    response: ji
+    related: []
+    mnemonic: "Shi with dakuten becomes Ji - like 'jeep'."
+
+  ず:
+    prompt: ず
+    response: zu
+    related: []
+    mnemonic: "Su with dakuten becomes Zu - like 'zoo'."
+
+  ぜ:
+    prompt: ぜ
+    response: ze
+    related: []
+    mnemonic: "Se with dakuten becomes Ze - like 'zen'."
+
+  ぞ:
+    prompt: ぞ
+    response: zo
+    related: []
+    mnemonic: "So with dakuten becomes Zo - like 'zone'."
+
+  だ:
+    prompt: だ
+    response: da
+    related: []
+    mnemonic: "Ta with dakuten becomes Da - like 'dad'."
+
+  ぢ:
+    prompt: ぢ
+    response: ji
+    related: []
+    mnemonic: "Chi with dakuten also sounds like Ji (rarely used)."
+
+  づ:
+    prompt: づ
+    response: zu
+    related: []
+    mnemonic: "Tsu with dakuten also sounds like Zu (rarely used)."
+
+  で:
+    prompt: で
+    response: de
+    related: []
+    mnemonic: "Te with dakuten becomes De - like 'day'."
+
+  ど:
+    prompt: ど
+    response: do
+    related: []
+    mnemonic: "To with dakuten becomes Do - like 'door'."
+
+  ば:
+    prompt: ば
+    response: ba
+    related: []
+    mnemonic: "Ha with dakuten becomes Ba - like 'ball'."
+
+  び:
+    prompt: び
+    response: bi
+    related: []
+    mnemonic: "Hi with dakuten becomes Bi - like 'bee'."
+
+  ぶ:
+    prompt: ぶ
+    response: bu
+    related: []
+    mnemonic: "Fu with dakuten becomes Bu - like 'boo'."
+
+  べ:
+    prompt: べ
+    response: be
+    related: []
+    mnemonic: "He with dakuten becomes Be - like 'bed'."
+
+  ぼ:
+    prompt: ぼ
+    response: bo
+    related: []
+    mnemonic: "Ho with dakuten becomes Bo - like 'boat'."
+
+  # Han-dakuten characters (゜ makes p sound)
+  ぱ:
+    prompt: ぱ
+    response: pa
+    related: []
+    mnemonic: "Ha with han-dakuten becomes Pa - like 'papa'."
+
+  ぴ:
+    prompt: ぴ
+    response: pi
+    related: []
+    mnemonic: "Hi with han-dakuten becomes Pi - like 'pink'."
+
+  ぷ:
+    prompt: ぷ
+    response: pu
+    related: []
+    mnemonic: "Fu with han-dakuten becomes Pu - like 'poof'."
+
+  ぺ:
+    prompt: ぺ
+    response: pe
+    related: []
+    mnemonic: "He with han-dakuten becomes Pe - like 'pen'."
+
+  ぽ:
+    prompt: ぽ
+    response: po
+    related: []
+    mnemonic: "Ho with han-dakuten becomes Po - like 'pop'."
+
+  # Combination characters (ya, yu, yo combinations)
+  きゃ:
+    prompt: きゃ
+    response: kya
+    related: []
+    mnemonic: "Ki + small ya = Kya - like 'cute' (kyaa!)."
+
+  きゅ:
+    prompt: きゅ
+    response: kyu
+    related: []
+    mnemonic: "Ki + small yu = Kyu - like 'queue'."
+
+  きょ:
+    prompt: きょ
+    response: kyo
+    related: []
+    mnemonic: "Ki + small yo = Kyo - like 'Kyoto'."
+
+  しゃ:
+    prompt: しゃ
+    response: sha
+    related: []
+    mnemonic: "Shi + small ya = Sha - like 'shark'."
+
+  しゅ:
+    prompt: しゅ
+    response: shu
+    related: []
+    mnemonic: "Shi + small yu = Shu - like 'shoe'."
+
+  しょ:
+    prompt: しょ
+    response: sho
+    related: []
+    mnemonic: "Shi + small yo = Sho - like 'show'."
+
+  ちゃ:
+    prompt: ちゃ
+    response: cha
+    related: []
+    mnemonic: "Chi + small ya = Cha - like 'tea' (cha)."
+
+  ちゅ:
+    prompt: ちゅ
+    response: chu
+    related: []
+    mnemonic: "Chi + small yu = Chu - like 'chew'."
+
+  ちょ:
+    prompt: ちょ
+    response: cho
+    related: []
+    mnemonic: "Chi + small yo = Cho - like 'chocolate'."
+
+  にゃ:
+    prompt: にゃ
+    response: nya
+    related: []
+    mnemonic: "Ni + small ya = Nya - like a cat's meow."
+
+  にゅ:
+    prompt: にゅ
+    response: nyu
+    related: []
+    mnemonic: "Ni + small yu = Nyu - like 'new'."
+
+  にょ:
+    prompt: にょ
+    response: nyo
+    related: []
+    mnemonic: "Ni + small yo = Nyo - wiggling like a snake."
+
+  ひゃ:
+    prompt: ひゃ
+    response: hya
+    related: []
+    mnemonic: "Hi + small ya = Hya - like 'hyah!' (martial arts yell)."
+
+  ひゅ:
+    prompt: ひゅ
+    response: hyu
+    related: []
+    mnemonic: "Hi + small yu = Hyu - like wind whistling."
+
+  ひょ:
+    prompt: ひょ
+    response: hyo
+    related: []
+    mnemonic: "Hi + small yo = Hyo - like a leopard (hyou)."
+
+  みゃ:
+    prompt: みゃ
+    response: mya
+    related: []
+    mnemonic: "Mi + small ya = Mya - like 'meow'."
+
+  みゅ:
+    prompt: みゅ
+    response: myu
+    related: []
+    mnemonic: "Mi + small yu = Myu - like 'music'."
+
+  みょ:
+    prompt: みょ
+    response: myo
+    related: []
+    mnemonic: "Mi + small yo = Myo - mysterious sound."
+
+  りゃ:
+    prompt: りゃ
+    response: rya
+    related: []
+    mnemonic: "Ri + small ya = Rya - rolling the R."
+
+  りゅ:
+    prompt: りゅ
+    response: ryu
+    related: []
+    mnemonic: "Ri + small yu = Ryu - like 'Ryu' the dragon."
+
+  りょ:
+    prompt: りょ
+    response: ryo
+    related: []
+    mnemonic: "Ri + small yo = Ryo - like '료' in names."
+
+  ぎゃ:
+    prompt: ぎゃ
+    response: gya
+    related: []
+    mnemonic: "Gi + small ya = Gya - surprised 'gya!'."
+
+  ぎゅ:
+    prompt: ぎゅ
+    response: gyu
+    related: []
+    mnemonic: "Gi + small yu = Gyu - like 'gyoza' dumpling."
+
+  ぎょ:
+    prompt: ぎょ
+    response: gyo
+    related: []
+    mnemonic: "Gi + small yo = Gyo - fish (gyo) swimming."
+
+  じゃ:
+    prompt: じゃ
+    response: ja
+    related: []
+    mnemonic: "Ji + small ya = Ja - like 'jar'."
+
+  じゅ:
+    prompt: じゅ
+    response: ju
+    related: []
+    mnemonic: "Ji + small yu = Ju - like 'juice'."
+
+  じょ:
+    prompt: じょ
+    response: jo
+    related: []
+    mnemonic: "Ji + small yo = Jo - like 'Joe'."
+
+  ぢゃ:
+    prompt: ぢゃ
+    response: ja
+    related: []
+    mnemonic: "Di + small ya = Ja (rarely used, same as じゃ)."
+
+  ぢゅ:
+    prompt: ぢゅ
+    response: ju
+    related: []
+    mnemonic: "Di + small yu = Ju (rarely used, same as じゅ)."
+
+  ぢょ:
+    prompt: ぢょ
+    response: jo
+    related: []
+    mnemonic: "Di + small yo = Jo (rarely used, same as じょ)."
+
+  びゃ:
+    prompt: びゃ
+    response: bya
+    related: []
+    mnemonic: "Bi + small ya = Bya - like 'beyond'."
+
+  びゅ:
+    prompt: びゅ
+    response: byu
+    related: []
+    mnemonic: "Bi + small yu = Byu - like 'beautiful'."
+
+  びょ:
+    prompt: びょ
+    response: byo
+    related: []
+    mnemonic: "Bi + small yo = Byo - like 'byou' (second)."
+
+  ぴゃ:
+    prompt: ぴゃ
+    response: pya
+    related: []
+    mnemonic: "Pi + small ya = Pya - like 'pyah!' sound."
+
+  ぴゅ:
+    prompt: ぴゅ
+    response: pyu
+    related: []
+    mnemonic: "Pi + small yu = Pyu - like 'pew pew' laser sounds."
+
+  ぴょ:
+    prompt: ぴょ
+    response: pyo
+    related: []
+    mnemonic: "Pi + small yo = Pyo - like bouncing 'pyon pyon'."

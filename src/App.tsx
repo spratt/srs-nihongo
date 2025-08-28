@@ -5,6 +5,8 @@ import * as _ from 'lodash';
 import {shuffle, randomChoices} from './random';
 import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPicker} from './QuestionPicker';
 import TabBar, { TabType } from './TabBar';
+import RowSelector from './RowSelector';
+import { hiraganaRows, katakanaRows, getCharactersFromRows } from './characterRows';
 
 import dataKanji from './data.yaml';
 import dataHiragana from './data_hiragana.yaml';
@@ -77,6 +79,7 @@ interface TabState {
   responses: string[];
   question: Question;
   maxQuestions: number;
+  selectedRows?: string[]; // For hiragana/katakana row selection
   answer?: string | undefined;
   numCorrect: number;
   numAnswered: number;
@@ -114,11 +117,16 @@ class App extends React.Component<object, AppState> {
       kanji: new NullQuestionPicker(),
     };
 
-    // Load saved max questions for each tab, with backward compatibility
+    // Load saved max questions for kanji, with backward compatibility
     const maxQuestionsKanji = Number(window.localStorage.getItem('maxQuestions_kanji')) ||
                               Number(window.localStorage.getItem('maxQuestions')) || 30;
-    const maxQuestionsHiragana = Number(window.localStorage.getItem('maxQuestions_hiragana')) || 20;
-    const maxQuestionsKatakana = Number(window.localStorage.getItem('maxQuestions_katakana')) || 20;
+    
+    // Load saved row selections for hiragana/katakana
+    const savedHiraganaRows = window.localStorage.getItem('selectedRows_hiragana');
+    const selectedHiraganaRows = savedHiraganaRows ? JSON.parse(savedHiraganaRows) : ['vowels'];
+    
+    const savedKatakanaRows = window.localStorage.getItem('selectedRows_katakana');
+    const selectedKatakanaRows = savedKatakanaRows ? JSON.parse(savedKatakanaRows) : ['vowels'];
 
     // Initialize empty tab states
     const emptyTabState: TabState = {
@@ -134,19 +142,61 @@ class App extends React.Component<object, AppState> {
     // Initialize state with all tabs
     this.state = {
       activeTab: 'hiragana',
-      hiragana: { ...emptyTabState, maxQuestions: maxQuestionsHiragana },
-      katakana: { ...emptyTabState, maxQuestions: maxQuestionsKatakana },
+      hiragana: { ...emptyTabState, selectedRows: selectedHiraganaRows, maxQuestions: 0 },
+      katakana: { ...emptyTabState, selectedRows: selectedKatakanaRows, maxQuestions: 0 },
       kanji: { ...emptyTabState, maxQuestions: maxQuestionsKanji },
     };
 
     // Initialize data for each tab
-    this.initializeTab('hiragana', dataHiragana.facts, maxQuestionsHiragana);
-    this.initializeTab('katakana', dataKatakana.facts, maxQuestionsKatakana);
+    this.initializeTabWithRows('hiragana', dataHiragana.facts, selectedHiraganaRows);
+    this.initializeTabWithRows('katakana', dataKatakana.facts, selectedKatakanaRows);
     this.initializeTab('kanji', dataKanji.facts, maxQuestionsKanji);
   }
 
   override componentDidMount(): void {
     this.mounted = true;
+  }
+
+  initializeTabWithRows(tab: 'hiragana' | 'katakana', facts: Record<string, Fact>, selectedRows: string[]): void {
+    const rows = tab === 'hiragana' ? hiraganaRows : katakanaRows;
+    const selectedCharacters = getCharactersFromRows(rows, selectedRows);
+    const prompts = selectedCharacters.filter(char => facts[char] !== undefined);
+    
+    if (prompts.length > 0) {
+      this.questionPickers[tab] = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
+      const responses = prompts.map((prompt: string) => {
+        const fact = facts[prompt];
+        if (fact === undefined) {
+          throw new Error(`Fact not found for prompt: ${prompt}`);
+        }
+        return fact.response;
+      });
+      
+      const tabState: TabState = {
+        facts: facts,
+        responses: responses,
+        question: App.emptyQuestion,
+        maxQuestions: prompts.length,
+        selectedRows: selectedRows,
+        numCorrect: 0,
+        numAnswered: 0,
+        seenSet: {},
+      };
+      
+      if (this.mounted) {
+        this.setState((prevState) => ({
+          ...prevState,
+          [tab]: tabState
+        }));
+      } else {
+        // eslint-disable-next-line
+        (this.state as any)[tab] = tabState;
+      }
+      
+      if (tab === this.state.activeTab) {
+        this.nextQuestionForTab(tab, {});
+      }
+    }
   }
 
   initializeTab(tab: TabType, facts: Record<string, Fact>, maxQuestions: number): void {
@@ -187,13 +237,27 @@ class App extends React.Component<object, AppState> {
     }
   }
 
+  handleRowSelectionChange = (selectedRows: string[]): void => {
+    const tab = this.state.activeTab;
+    if (tab === 'kanji') return; // Row selection only for hiragana/katakana
+    
+    // Save to localStorage
+    window.localStorage.setItem(`selectedRows_${tab}`, JSON.stringify(selectedRows));
+    
+    // Re-initialize with new selection
+    const facts = tab === 'hiragana' ? dataHiragana.facts : dataKatakana.facts;
+    this.initializeTabWithRows(tab as 'hiragana' | 'katakana', facts, selectedRows);
+  }
+
   decMaxQuestions(): void {
+    if (this.state.activeTab !== 'kanji') return; // Only for kanji
     const currentTab = this.state[this.state.activeTab];
     if (currentTab.maxQuestions - 1 < 4) return;
     this.setQuestions(currentTab.maxQuestions - 1, currentTab.facts);
   }
 
   incMaxQuestions(): void {
+    if (this.state.activeTab !== 'kanji') return; // Only for kanji
     const currentTab = this.state[this.state.activeTab];
     if (currentTab.maxQuestions + 1 > Object.keys(currentTab.facts).length) return;
     this.setQuestions(currentTab.maxQuestions + 1, currentTab.facts);
@@ -417,13 +481,24 @@ class App extends React.Component<object, AppState> {
           answered={ tabState.numAnswered }
           correct={ tabState.numCorrect }
         />
-        <div>
-          <span>Seen { numSeen } / </span>
-          <button onClick={() => this.decMaxQuestions()}>-</button>
-          <span>{ tabState.maxQuestions }</span>
-          <button onClick={() => this.incMaxQuestions()}>+</button>
-          <span> / { numTotal } total</span>
-        </div>
+        {this.state.activeTab === 'kanji' ? (
+          <div>
+            <span>Seen { numSeen } / </span>
+            <button onClick={() => this.decMaxQuestions()}>-</button>
+            <span>{ tabState.maxQuestions }</span>
+            <button onClick={() => this.incMaxQuestions()}>+</button>
+            <span> / { numTotal } total</span>
+          </div>
+        ) : (
+          <div>
+            <div>Seen: { numSeen }</div>
+            <RowSelector
+              rows={this.state.activeTab === 'hiragana' ? hiraganaRows : katakanaRows}
+              selectedRowIds={tabState.selectedRows ?? []}
+              onRowSelectionChange={this.handleRowSelectionChange}
+            />
+          </div>
+        )}
         {this.renderCard()}
         {this.renderMnemonic()}
       </Container>

@@ -1,80 +1,115 @@
-# Hiragana Feature Implementation Plan
+# Hiragana/Katakana Row-Based Learning Implementation Plan
 
 ## Overview
-Add a tabbed interface to the Japanese SRS app to support learning Hiragana, Katakana, and Kanji separately, with each tab maintaining independent state.
+Replace the current increment/decrement counter interface for Hiragana and Katakana tabs with a row-based selection system that allows users to practice specific character groups progressively.
 
-## Completed Tasks
-✅ Created `data_hiragana.yaml` with all 46 basic hiragana characters including mnemonics
+## Character Row Structure
 
-## Remaining Implementation Steps
+### Hiragana Rows (Total: 104 characters)
+#### Main Rows (46 characters)
+- Vowels: あ い う え お
+- K-row: か き く け こ
+- S-row: さ し す せ そ
+- T-row: た ち つ て と
+- N-row: な に ぬ ね の
+- H-row: は ひ ふ へ ほ
+- M-row: ま み む め も
+- Y-row: や ゆ よ
+- R-row: ら り る れ ろ
+- W-row: わ ゐ ゑ を
+- N-consonant: ん
 
-### 1. Create Tab Component Structure
-- Create a new `TabBar` component with three tabs: Hiragana, Katakana, Kanji
-- Style the tabs to match existing app design (using styled-components)
-- Position tabs below the title "S.R.S. 日本語"
+#### Dakuten Rows (15 characters with ゛)
+- G-row: が ぎ ぐ げ ご
+- Z-row: ざ じ ず ぜ ぞ
+- D-row: だ ぢ づ で ど
 
-### 2. Refactor App Component for Multi-Dataset Support
-- Convert App from class component to functional component with hooks (or keep as class with proper state management)
-- Create separate state management for each tab:
-  - Independent `numCorrect` and `numAnswered` counters
-  - Independent `maxQuestions` setting (stored in localStorage with keys like 'maxQuestions_hiragana')
-  - Independent `seenSet` tracking
-  - Independent `QuestionPicker` instances with their own SRS values
+#### Han-dakuten Rows (10 characters)
+- B-row: ば び ぶ べ ぼ (with ゛)
+- P-row: ぱ ぴ ぷ ぺ ぽ (with ゜)
 
-### 3. Import Multiple Data Sources
-- Import `data_hiragana.yaml` alongside existing `data.yaml`
-- Prepare structure for future `data_katakana.yaml`
-- Map tab selections to corresponding data sources
+#### Combination Rows (33 characters)
+- Kya-row: きゃ きゅ きょ
+- Sha-row: しゃ しゅ しょ
+- Cha-row: ちゃ ちゅ ちょ
+- Nya-row: にゃ にゅ にょ
+- Hya-row: ひゃ ひゅ ひょ
+- Mya-row: みゃ みゅ みょ
+- Rya-row: りゃ りゅ りょ
+- Gya-row: ぎゃ ぎゅ ぎょ
+- Ja-row: じゃ じゅ じょ
+- Dya-row: ぢゃ ぢゅ ぢょ
+- Bya-row: びゃ びゅ びょ
+- Pya-row: ぴゃ ぴゅ ぴょ
 
-### 4. Update State Management
-- Modify state structure to support multiple datasets:
-  ```typescript
-  interface TabState {
-    facts: Record<string, Fact>;
-    responses: string[];
-    question: Question;
-    maxQuestions: number;
-    numCorrect: number;
-    numAnswered: number;
-    seenSet: Record<string, object>;
-    questionPicker: QuestionPicker;
-  }
-  
-  interface AppState {
-    activeTab: 'hiragana' | 'katakana' | 'kanji';
-    hiragana: TabState;
-    katakana: TabState;
-    kanji: TabState;
-  }
-  ```
+### Katakana Rows (Similar structure + extras)
+- Same structure as Hiragana for main, dakuten, han-dakuten
+- Additional dakuten: vu-row: ヴ
+- Additional combinations:
+  - Va-row: ヴァ ヴィ ヴェ ヴォ
+  - Wi-row: ウィ ウェ ウォ
+  - Fa-row: ファ フィ フェ フォ
+  - Tsa-row: ツァ ツィ ツェ ツォ
+  - She-row: シェ
+  - Je-row: ジェ
+  - Che-row: チェ
 
-### 5. Update localStorage Keys
-- Use tab-specific keys: `maxQuestions_hiragana`, `maxQuestions_katakana`, `maxQuestions_kanji`
-- Maintain backward compatibility by mapping old `maxQuestions` to `maxQuestions_kanji`
+## Implementation Steps
 
-### 6. Set Hiragana as Default
-- Initialize app with `activeTab: 'hiragana'`
-- Load hiragana data on initial mount
+### 1. Create Extended Data Files
+- Add dakuten, han-dakuten, and combination characters to data_hiragana.yaml
+- Add dakuten, han-dakuten, and combination characters to data_katakana.yaml
+- Include proper mnemonics for each new character
 
-### 7. Maintain Component Reusability
-- Keep existing components (Summary, Prompt, buttons) unchanged
-- Only modify App component and add TabBar component
-- Ensure font size for hiragana displays same as kanji
+### 2. Create Row Selection Component
+- Create RowSelector component that displays character rows in a table
+- Each row shows:
+  - Row name (e.g., "Vowels", "K-row")
+  - Visual display of characters in the row
+  - Checkbox for selection
+- Selected rows should be visually distinguished (different background color)
+- Checkboxes control which characters are in the practice pool
 
-### 8. Testing Plan
-- Verify tab switching preserves state for each tab
-- Confirm counters remain independent
-- Test localStorage persistence for each tab's settings
-- Ensure SRS algorithm works independently per tab
+### 3. Modify App State Management
+- For Hiragana and Katakana tabs:
+  - Replace maxQuestions with selectedRows state
+  - Store selectedRows in localStorage (e.g., 'selectedRows_hiragana')
+  - Update practice pool dynamically based on selected rows
+  - Reset "seen" counter when rows are selected/deselected
+- Keep Kanji tab unchanged with current increment/decrement interface
+
+### 4. Update UI Layout
+- Replace "Seen X / [-]Y[+] / Z total" with:
+  - "Seen: X" counter
+  - RowSelector table below the counter
+- Only apply to Hiragana and Katakana tabs
+- Kanji tab retains current interface
+
+### 5. Character Row Mapping
+- Create mapping of row names to character lists
+- Implement function to get all characters from selected rows
+- Handle special cases (e.g., obsolete characters ゐ, ゑ)
+
+### 6. Default State
+- If no saved state in localStorage, default to vowels row selected
+- Otherwise, restore previously selected rows
+
+### 7. Accessibility Considerations
+- Use both color and checkbox state for selected rows
+- Ensure color contrast meets WCAG standards
+- Test with color blindness simulators
 
 ## File Changes Required
-1. `src/App.tsx` - Major refactor for tab support
-2. `src/TabBar.tsx` - New component (to be created)
-3. `src/data_hiragana.yaml` - ✅ Already created
-4. Future: `src/data_katakana.yaml` - To be created when implementing Katakana tab
+1. `src/data_hiragana.yaml` - Add ~58 new characters
+2. `src/data_katakana.yaml` - Add ~60+ new characters  
+3. `src/RowSelector.tsx` - New component for row selection
+4. `src/App.tsx` - Update state management and UI for Hiragana/Katakana
+5. `src/characterRows.ts` - New file defining row structures
 
-## Design Decisions
-- Hiragana tab will be default (most beginners start here)
-- Each tab completely independent (no shared state except UI preferences)
-- Reuse all existing components for consistency
-- Maintain same visual design and user experience
+## Testing Checklist
+- [ ] Row selection updates practice pool immediately
+- [ ] Seen counter resets on row change
+- [ ] Selected rows persist in localStorage
+- [ ] Visual feedback for selected rows
+- [ ] Kanji tab unchanged
+- [ ] All new characters have appropriate mnemonics
