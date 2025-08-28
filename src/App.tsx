@@ -24,9 +24,15 @@ interface Fact {
 const Tada = String.fromCodePoint(127881);
 
 const Container = styled.div`
+  padding-bottom: 2rem;
+  
   @media screen and (min-width: 48rem) {
-  width: 48rem;
-  margin: 0 auto;
+    width: 48rem;
+    margin: 0 auto;
+  }
+  
+  @media screen and (min-width: 768px) {
+    padding-bottom: 4rem; /* Extra space for fixed credits on desktop */
   }
 `;
 
@@ -63,6 +69,32 @@ const MnemonicImage = styled.img`
   margin: 0.5rem 0;
   border-radius: 4px;
   border: 1px solid #ddd;
+`;
+
+const Credits = styled.div`
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+  
+  /* Mobile: render in document flow after content */
+  margin-top: 2rem;
+  padding: 1rem;
+  border-top: 1px solid #eee;
+  
+  /* Desktop: fixed to bottom of screen */
+  @media screen and (min-width: 768px) {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin-top: 0;
+    padding: 0.5rem;
+    background-color: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(5px);
+    border-top: 1px solid #ddd;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
 `;
 
 interface SummaryProps {
@@ -547,6 +579,9 @@ class App extends React.Component<object, AppState> {
         )}
         {this.renderCard()}
         {this.renderMnemonic()}
+        <Credits>
+          This project uses <a href="https://www.edrdg.org/wiki/index.php/KANJIDIC_Project">KANJIDIC 2</a>, hiragana images from <a href="https://www.tofugu.com/japanese/learn-hiragana/">Tofugu</a>, and katakana images from <a href="https://www.tofugu.com/japanese/learn-katakana/">Tofugu</a>.
+        </Credits>
       </Container>
     );
   }
