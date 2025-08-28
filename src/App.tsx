@@ -1,9 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-import yaml from 'js-yaml';
 import * as _ from 'lodash';
 
-import xhr from './http';
 import {shuffle, randomChoices} from './random';
 import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPicker} from './QuestionPicker';
 
@@ -107,13 +105,7 @@ class App extends React.Component<{},AppState> {
     const maxQuestions =
       Number(window.localStorage.getItem(this.maxQuestionsKey)) || 30;
 
-    // Start async get call
-    xhr('GET', data).then((req) => {
-      const data = yaml.load(req.response);
-      this.setQuestions(maxQuestions, data.facts);
-    }).catch((err) => console.error(err));
-
-    // Initialize empty state while we wait for the xhr to finish
+    // Initialize state first
     this.state = {
       facts: {},
       responses: [],
@@ -124,6 +116,9 @@ class App extends React.Component<{},AppState> {
       numAnswered: 0,
       seenSet: {},
     };
+
+    // Data is already parsed by the YAML plugin
+    this.setQuestions(maxQuestions, data.facts);
   }
 
   componentDidMount() {
