@@ -1,0 +1,288 @@
+facts:
+  あ:
+    prompt: あ
+    response: a
+    related: []
+    mnemonic: "An arrow pointing to the side, saying 'ah' in surprise."
+
+  い:
+    prompt: い
+    response: i
+    related: []
+    mnemonic: "Two sticks, one big and one small. Think 'eee' for the sound."
+
+  う:
+    prompt: う
+    response: u
+    related: []
+    mnemonic: "Looks like a cow's face saying 'moo' (sounds like 'u')."
+
+  え:
+    prompt: え
+    response: e
+    related: []
+    mnemonic: "An exotic bird's beak opening to say 'eh'."
+
+  お:
+    prompt: お
+    response: o
+    related: []
+    mnemonic: "A cheerleader's pom-pom. She says 'oh!' when she drops it."
+
+  か:
+    prompt: か
+    response: ka
+    related: []
+    mnemonic: "A key with a notch. 'Ka' sounds like 'key'."
+
+  き:
+    prompt: き
+    response: ki
+    related: []
+    mnemonic: "A key hanging from a hook. Think 'key'."
+
+  く:
+    prompt: く
+    response: ku
+    related: []
+    mnemonic: "A duck's bill. Ducks say 'quack' which starts with 'ku'."
+
+  け:
+    prompt: け
+    response: ke
+    related: []
+    mnemonic: "Keg of beer tipped over, spilling."
+
+  こ:
+    prompt: こ
+    response: ko
+    related: []
+    mnemonic: "Two coins stacked. Think 'coins' for 'ko'."
+
+  さ:
+    prompt: さ
+    response: sa
+    related: []
+    mnemonic: "A woman bowing with her hand up, saying 'sir'."
+
+  し:
+    prompt: し
+    response: shi
+    related: []
+    mnemonic: "A woman with long hair. She's shy."
+
+  す:
+    prompt: す
+    response: su
+    related: []
+    mnemonic: "A screw going through wood. Think 'screw'."
+
+  せ:
+    prompt: せ
+    response: se
+    related: []
+    mnemonic: "A person saying something. Think 'say'."
+
+  そ:
+    prompt: そ
+    response: so
+    related: []
+    mnemonic: "A zipper going up and down. Think 'so-so'."
+
+  た:
+    prompt: た
+    response: ta
+    related: []
+    mnemonic: "A cross with a line through it. Think 'ta' as in 'ta-da!'."
+
+  ち:
+    prompt: ち
+    response: chi
+    related: []
+    mnemonic: "A cheerleader with pom-poms up high."
+
+  つ:
+    prompt: つ
+    response: tsu
+    related: []
+    mnemonic: "A hook to catch a tsunami wave."
+
+  て:
+    prompt: て
+    response: te
+    related: []
+    mnemonic: "A hand giving someone a telephone."
+
+  と:
+    prompt: と
+    response: to
+    related: []
+    mnemonic: "A toe with a toenail."
+
+  な:
+    prompt: な
+    response: na
+    related: []
+    mnemonic: "A cross with a curvy line. Think 'nah'."
+
+  に:
+    prompt: に
+    response: ni
+    related: []
+    mnemonic: "A knee bending. Think 'knee'."
+
+  ぬ:
+    prompt: ぬ
+    response: nu
+    related: []
+    mnemonic: "Noodles on a fork."
+
+  ね:
+    prompt: ね
+    response: ne
+    related: []
+    mnemonic: "A cat with a curly tail saying 'nyan'."
+
+  の:
+    prompt: の
+    response: no
+    related: []
+    mnemonic: "A 'No!' sign - a circle with a line through it."
+
+  は:
+    prompt: は
+    response: ha
+    related: []
+    mnemonic: "A person dancing, saying 'ha ha ha!'."
+
+  ひ:
+    prompt: ひ
+    response: hi
+    related: []
+    mnemonic: "A person waving 'hi' with their hand up."
+
+  ふ:
+    prompt: ふ
+    response: fu
+    related: []
+    mnemonic: "Mount Fuji with snow on top."
+
+  へ:
+    prompt: へ
+    response: he
+    related: []
+    mnemonic: "A house with a pointed roof. He lives there."
+
+  ほ:
+    prompt: ほ
+    response: ho
+    related: []
+    mnemonic: "A person with arms crossed saying 'ho ho ho!'."
+
+  ま:
+    prompt: ま
+    response: ma
+    related: []
+    mnemonic: "A mom's face with a curly hairdo."
+
+  み:
+    prompt: み
+    response: mi
+    related: []
+    mnemonic: "Musical note on a staff. Think 'mi' from do-re-mi."
+
+  む:
+    prompt: む
+    response: mu
+    related: []
+    mnemonic: "A cow saying 'moo'."
+
+  め:
+    prompt: め
+    response: me
+    related: []
+    mnemonic: "An eye looking at me."
+
+  も:
+    prompt: も
+    response: mo
+    related: []
+    mnemonic: "More and more circles stacked up."
+
+  や:
+    prompt: や
+    response: ya
+    related: []
+    mnemonic: "A yacht sailing on water."
+
+  ゆ:
+    prompt: ゆ
+    response: yu
+    related: []
+    mnemonic: "A unique fish swimming."
+
+  よ:
+    prompt: よ
+    response: yo
+    related: []
+    mnemonic: "A yo-yo on a string."
+
+  ら:
+    prompt: ら
+    response: ra
+    related: []
+    mnemonic: "A rabbit hopping along."
+
+  り:
+    prompt: り
+    response: ri
+    related: []
+    mnemonic: "Reeds growing by a river."
+
+  る:
+    prompt: る
+    response: ru
+    related: []
+    mnemonic: "A route that curves and loops."
+
+  れ:
+    prompt: れ
+    response: re
+    related: []
+    mnemonic: "A person kicking something. Think 'reject'."
+
+  ろ:
+    prompt: ろ
+    response: ro
+    related: []
+    mnemonic: "A road that curves and goes around."
+
+  わ:
+    prompt: わ
+    response: wa
+    related: []
+    mnemonic: "A wine glass. Think 'water' for 'wa'."
+
+  ゐ:
+    prompt: ゐ
+    response: wi
+    related: []
+    mnemonic: "A weird-looking character that's rarely used."
+
+  ゑ:
+    prompt: ゑ
+    response: we
+    related: []
+    mnemonic: "We don't use this character much anymore."
+
+  を:
+    prompt: を
+    response: wo
+    related: []
+    mnemonic: "Whoa! This character is special for particles."
+
+  ん:
+    prompt: ん
+    response: n
+    related: []
+    mnemonic: "The end of many Japanese words. Think 'end' for 'n'."

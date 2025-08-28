@@ -4,8 +4,10 @@ import * as _ from 'lodash';
 
 import {shuffle, randomChoices} from './random';
 import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPicker} from './QuestionPicker';
+import TabBar, { TabType } from './TabBar';
 
-import data from './data.yaml';
+import dataKanji from './data.yaml';
+import dataHiragana from './data_hiragana.yaml';
 
 interface Fact {
   prompt: string;
@@ -69,22 +71,27 @@ interface Question {
   responses: string[];
 }
 
-interface AppState {
+interface TabState {
   facts: Record<string,Fact>;
   responses: string[];
   question: Question;
   maxQuestions: number;
   answer?: string | undefined;
-
   numCorrect: number;
   numAnswered: number;
   seenSet: Record<string, object>;
 }
 
+interface AppState {
+  activeTab: TabType;
+  hiragana: TabState;
+  katakana: TabState;
+  kanji: TabState;
+}
+
 class App extends React.Component<object, AppState> {
-  private questionPicker: QuestionPicker;
+  private questionPickers: Record<TabType, QuestionPicker>;
   private mounted: boolean = false;
-  private maxQuestionsKey = 'maxQuestions';
   
   static emptyQuestion = {
     fact: {
@@ -100,45 +107,104 @@ class App extends React.Component<object, AppState> {
     super(props);
     console.log('new App()');
 
-    this.questionPicker = new NullQuestionPicker();
+    this.questionPickers = {
+      hiragana: new NullQuestionPicker(),
+      katakana: new NullQuestionPicker(),
+      kanji: new NullQuestionPicker(),
+    };
 
-    const maxQuestions =
-      Number(window.localStorage.getItem(this.maxQuestionsKey)) || 30;
+    // Load saved max questions for each tab, with backward compatibility
+    const maxQuestionsKanji = Number(window.localStorage.getItem('maxQuestions_kanji')) ||
+                              Number(window.localStorage.getItem('maxQuestions')) || 30;
+    const maxQuestionsHiragana = Number(window.localStorage.getItem('maxQuestions_hiragana')) || 20;
+    const maxQuestionsKatakana = Number(window.localStorage.getItem('maxQuestions_katakana')) || 20;
 
-    // Initialize state first
-    this.state = {
+    // Initialize empty tab states
+    const emptyTabState: TabState = {
       facts: {},
       responses: [],
       question: App.emptyQuestion,
-      maxQuestions: maxQuestions,
-
+      maxQuestions: 20,
       numCorrect: 0,
       numAnswered: 0,
       seenSet: {},
     };
 
-    // Data is already parsed by the YAML plugin
-    this.setQuestions(maxQuestions, data.facts);
+    // Initialize state with all tabs
+    this.state = {
+      activeTab: 'hiragana',
+      hiragana: { ...emptyTabState, maxQuestions: maxQuestionsHiragana },
+      katakana: { ...emptyTabState, maxQuestions: maxQuestionsKatakana },
+      kanji: { ...emptyTabState, maxQuestions: maxQuestionsKanji },
+    };
+
+    // Initialize data for each tab
+    this.initializeTab('hiragana', dataHiragana.facts, maxQuestionsHiragana);
+    this.initializeTab('kanji', dataKanji.facts, maxQuestionsKanji);
+    // Katakana will be initialized when we have the data
   }
 
   override componentDidMount(): void {
     this.mounted = true;
   }
 
+  initializeTab(tab: TabType, facts: Record<string, Fact>, maxQuestions: number): void {
+    const prompts = Object.keys(facts).slice(0, maxQuestions);
+    if (prompts.length > 0) {
+      this.questionPickers[tab] = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
+      const responses = prompts.map((prompt: string) => {
+        const fact = facts[prompt];
+        if (fact === undefined) {
+          throw new Error(`Fact not found for prompt: ${prompt}`);
+        }
+        return fact.response;
+      });
+      
+      const tabState: TabState = {
+        facts: facts,
+        responses: responses,
+        question: App.emptyQuestion,
+        maxQuestions: maxQuestions,
+        numCorrect: 0,
+        numAnswered: 0,
+        seenSet: {},
+      };
+      
+      if (this.mounted) {
+        this.setState((prevState) => ({
+          ...prevState,
+          [tab]: tabState
+        }));
+      } else {
+        // eslint-disable-next-line
+        (this.state as any)[tab] = tabState;
+      }
+      
+      if (tab === this.state.activeTab) {
+        this.nextQuestionForTab(tab, {});
+      }
+    }
+  }
+
   decMaxQuestions(): void {
-    if (this.state.maxQuestions - 1 < 4) return;
-    this.setQuestions(this.state.maxQuestions - 1, this.state.facts);
+    const currentTab = this.state[this.state.activeTab];
+    if (currentTab.maxQuestions - 1 < 4) return;
+    this.setQuestions(currentTab.maxQuestions - 1, currentTab.facts);
   }
 
   incMaxQuestions(): void {
-    if (this.state.maxQuestions + 1 > Object.keys(this.state.facts).length) return;
-    this.setQuestions(this.state.maxQuestions + 1, this.state.facts);
+    const currentTab = this.state[this.state.activeTab];
+    if (currentTab.maxQuestions + 1 > Object.keys(currentTab.facts).length) return;
+    this.setQuestions(currentTab.maxQuestions + 1, currentTab.facts);
   }
 
   setQuestions(maxQuestions: number, facts: Record<string,Fact>): void {
-    window.localStorage.setItem(this.maxQuestionsKey, String(maxQuestions));
+    const tab = this.state.activeTab;
+    window.localStorage.setItem(`maxQuestions_${tab}`, String(maxQuestions));
     const prompts = Object.keys(facts).slice(0, maxQuestions)
-    this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
+    if (prompts.length > 0) {
+      this.questionPickers[tab] = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
+    }
     const responses = prompts.map((prompt: string) => {
       const fact = facts[prompt];
       if (fact === undefined) {
@@ -146,126 +212,147 @@ class App extends React.Component<object, AppState> {
       }
       return fact.response;
     });
+    const currentTab = this.state[tab];
+    
+    // Keep only the seen items that are still in the new range
+    const newSeenSet: Record<string, object> = {};
+    for (const key of Object.keys(currentTab.seenSet)) {
+      if (prompts.includes(key)) {
+        newSeenSet[key] = currentTab.seenSet[key] ?? {};
+      }
+    }
+    
+    const newTabState: TabState = {
+      facts: facts,
+      responses: responses,
+      question: currentTab.question,
+      maxQuestions: maxQuestions,
+      numCorrect: currentTab.numCorrect,
+      numAnswered: currentTab.numAnswered,
+      seenSet: newSeenSet,
+      answer: currentTab.answer,
+    };
+    
     if (this.mounted) {
-      const newState = {
-        facts: facts,
-        responses: responses,
-        question: App.emptyQuestion,
-        maxQuestions: maxQuestions,
-        seenSet: {},
-      };
-      this.setState(newState);
+      this.setState((prevState) => ({
+        ...prevState,
+        [tab]: newTabState
+      }), () => {
+        // Generate a new question only if we don't have one
+        if (newTabState.question === App.emptyQuestion || newTabState.question.fact.prompt === '') {
+          this.nextQuestionForTab(tab, newSeenSet);
+        }
+      });
     } else {
       // eslint-disable-next-line
-      this.state = {
-        facts: facts,
-        responses: responses,
-        question: App.emptyQuestion,
-        maxQuestions: maxQuestions,
-
-        numCorrect: this.state.numCorrect,
-        numAnswered: this.state.numAnswered,
-        seenSet: {},
-      };
+      (this.state as any)[tab] = newTabState;
+      this.nextQuestionForTab(tab, newSeenSet);
     }
-    this.nextQuestion({});
   }
   
   nextQuestion(seenSet: Record<string, object>): void {
-    if (Object.keys(this.state.facts).length === 0) {
+    this.nextQuestionForTab(this.state.activeTab, seenSet);
+  }
+
+  nextQuestionForTab(tab: TabType, seenSet: Record<string, object>): void {
+    const tabState = this.state[tab];
+    if (Object.keys(tabState.facts).length === 0) {
       return
     }
-    if (!this.questionPicker.isReady()) {
+    if (!this.questionPickers[tab].isReady()) {
       return;
     }
-    const key = this.questionPicker.nextQuestion();
-    const fact = this.state.facts[key];
+    const key = this.questionPickers[tab].nextQuestion();
+    const fact = tabState.facts[key];
     if (fact === undefined) {
       throw new Error(`Fact not found for key: ${key}`);
     }
     const responses = [fact.response];
-    const otherResponses = this.state.responses.filter((response) => response !== fact.response);
+    const otherResponses = tabState.responses.filter((response) => response !== fact.response);
     responses.push(...randomChoices(otherResponses, 3));
     const newSeenSet = _.clone(seenSet);
     newSeenSet[fact.prompt] = Object.create(null) as object;
 
+    const newTabState: TabState = {
+      ...tabState,
+      question: {
+        fact: fact,
+        responses: shuffle(responses),
+      },
+      answer: undefined,
+      seenSet: newSeenSet,
+    };
+
     if (this.mounted) {
-      this.setState({
-        question: {
-          fact: fact,
-          responses: shuffle(responses),
-        },
-        answer: undefined,
-        seenSet: newSeenSet,
-      });
+      this.setState((prevState) => ({
+        ...prevState,
+        [tab]: newTabState
+      }));
     } else {
       // eslint-disable-next-line
-      this.state = {
-        facts: this.state.facts,
-        responses: this.state.responses,
-        question: {
-          fact: fact,
-          responses: shuffle(responses),
-        },
-        maxQuestions: this.state.maxQuestions,
-
-        numCorrect: this.state.numCorrect,
-        numAnswered: this.state.numAnswered,
-        seenSet: newSeenSet,
-        answer: undefined,
-      };
+      (this.state as any)[tab] = newTabState;
     }
   }
 
   handleClick(r: string): void {
-    if (this.state.answer !== null && this.state.answer !== undefined) return;
-    this.setState({
-      answer: r,
-    });
-    const numAnswered = this.state.numAnswered + 1;
-    let numCorrect = this.state.numCorrect;
-    if (r === this.state.question.fact.response) {
-      this.questionPicker.feedback(this.state.question.fact.prompt, true);
+    const tab = this.state.activeTab;
+    const tabState = this.state[tab];
+    if (tabState.answer !== null && tabState.answer !== undefined) return;
+    
+    const numAnswered = tabState.numAnswered + 1;
+    let numCorrect = tabState.numCorrect;
+    if (r === tabState.question.fact.response) {
+      this.questionPickers[tab].feedback(tabState.question.fact.prompt, true);
       numCorrect++;
     } else {
-      this.questionPicker.feedback(this.state.question.fact.prompt, false);
+      this.questionPickers[tab].feedback(tabState.question.fact.prompt, false);
     }
-    this.setState({
-      numAnswered: numAnswered,
-      numCorrect: numCorrect,
-    });
+    
+    this.setState((prevState) => ({
+      ...prevState,
+      [tab]: {
+        ...tabState,
+        answer: r,
+        numAnswered: numAnswered,
+        numCorrect: numCorrect,
+      }
+    }));
   }
 
   hasAnswered(): boolean {
-    return this.state.answer !== null && this.state.answer !== undefined;
+    const tabState = this.state[this.state.activeTab];
+    return tabState.answer !== null && tabState.answer !== undefined;
   }
 
   isCorrectAnswer(response: string): boolean {
-    return response === this.state.question.fact.response;
+    const tabState = this.state[this.state.activeTab];
+    return response === tabState.question.fact.response;
   }
 
   isWrongAnswer(response: string): boolean {
-    return this.state.answer === response && response !== this.state.question.fact.response;
+    const tabState = this.state[this.state.activeTab];
+    return tabState.answer === response && response !== tabState.question.fact.response;
   }
 
   renderCard(): React.JSX.Element {
-    const buttons = this.state.question.responses.map((response: string, i: number) => {
+    const tabState = this.state[this.state.activeTab];
+    const buttons = tabState.question.responses.map((response: string, i: number) => {
       if (this.hasAnswered()) {
         if (this.isCorrectAnswer(response)) {
           return (
-            <CorrectButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
+            <CorrectButton key={i} onClick={() => this.nextQuestion(tabState.seenSet)}>
               {response}
             </CorrectButton>
           );
         } else if (this.isWrongAnswer(response)) {
           return (
-            <WrongButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
+            <WrongButton key={i} onClick={() => this.nextQuestion(tabState.seenSet)}>
               {response}
             </WrongButton>
           );
         }
         return (
-          <BigButton key={i} onClick={() => this.nextQuestion(this.state.seenSet)}>
+          <BigButton key={i} onClick={() => this.nextQuestion(tabState.seenSet)}>
             {response}
           </BigButton>
         );
@@ -280,7 +367,7 @@ class App extends React.Component<object, AppState> {
     return (
       <div>
         <Prompt>
-          {this.state.question.fact.prompt}
+          {tabState.question.fact.prompt}
         </Prompt>
         {buttons}
       </div>
@@ -288,21 +375,32 @@ class App extends React.Component<object, AppState> {
   }
 
   renderMnemonic(): React.JSX.Element {
+    const tabState = this.state[this.state.activeTab];
     if (!this.hasAnswered()) return (<Mnemonic />);
     let response = '';
-    if (this.isCorrectAnswer(this.state.answer ?? '')) {
+    if (this.isCorrectAnswer(tabState.answer ?? '')) {
       response = Tada + Tada + Tada + 'Great job!' + Tada + Tada + Tada;
     } else {
-      response = 'Try to remember: ' + this.state.question.fact.mnemonic;
+      response = 'Try to remember: ' + tabState.question.fact.mnemonic;
     }
     return (
       <Mnemonic>{ response }</Mnemonic>
     );
   }
 
+  handleTabChange = (tab: TabType): void => {
+    this.setState({ activeTab: tab });
+    // If this tab has no current question, generate one
+    const tabState = this.state[tab];
+    if (tabState.question === App.emptyQuestion || tabState.question.fact.prompt === '') {
+      this.nextQuestionForTab(tab, tabState.seenSet);
+    }
+  }
+
   override render(): React.JSX.Element {
-    const numSeen = Object.keys(this.state.seenSet).length;
-    const numTotal = Object.keys(this.state.facts).length;
+    const tabState = this.state[this.state.activeTab];
+    const numSeen = Object.keys(tabState.seenSet).length;
+    const numTotal = Object.keys(tabState.facts).length;
     return (
       <Container>
         <header>
@@ -310,14 +408,18 @@ class App extends React.Component<object, AppState> {
             S.R.S. 日本語
           </Title>
         </header>
+        <TabBar
+          activeTab={this.state.activeTab}
+          onTabChange={this.handleTabChange}
+        />
         <Summary
-          answered={ this.state.numAnswered }
-          correct={ this.state.numCorrect }
+          answered={ tabState.numAnswered }
+          correct={ tabState.numCorrect }
         />
         <div>
           <span>Seen { numSeen } / </span>
           <button onClick={() => this.decMaxQuestions()}>-</button>
-          <span>{ this.state.maxQuestions }</span>
+          <span>{ tabState.maxQuestions }</span>
           <button onClick={() => this.incMaxQuestions()}>+</button>
           <span> / { numTotal } total</span>
         </div>
