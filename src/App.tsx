@@ -168,9 +168,11 @@ class App extends React.Component<object, AppState> {
   }
 
   initializeTabWithRows(tab: 'hiragana' | 'katakana', facts: Record<string, Fact>, selectedRows: string[]): void {
+    console.log('initializeTabWithRows called:', { tab, selectedRows });
     const rows = tab === 'hiragana' ? hiraganaRows : katakanaRows;
     const selectedCharacters = getCharactersFromRows(rows, selectedRows);
     const prompts = selectedCharacters.filter(char => facts[char] !== undefined);
+    console.log('Selected characters and prompts:', { selectedCharacters, prompts });
     
     if (prompts.length > 0) {
       this.questionPickers[tab] = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
@@ -182,29 +184,54 @@ class App extends React.Component<object, AppState> {
         return fact.response;
       });
       
-      const tabState: TabState = {
-        facts: facts,
-        responses: responses,
-        question: App.emptyQuestion,
-        maxQuestions: prompts.length,
-        selectedRows: selectedRows,
-        numCorrect: 0,
-        numAnswered: 0,
-        seenSet: {},
-      };
-      
       if (this.mounted) {
-        this.setState((prevState) => ({
-          ...prevState,
-          [tab]: tabState
-        }));
+        console.log('About to call setState with new selection:', selectedRows);
+        this.setState((prevState) => {
+          const currentTabState = prevState[tab];
+          const newTabState: TabState = {
+            facts: facts,
+            responses: responses,
+            question: App.emptyQuestion,
+            maxQuestions: prompts.length,
+            selectedRows: selectedRows,
+            numCorrect: currentTabState.numCorrect,
+            numAnswered: currentTabState.numAnswered,
+            seenSet: {},
+          };
+          console.log('Inside setState updater - creating newTabState with selectedRows:', newTabState.selectedRows);
+          return {
+            ...prevState,
+            [tab]: newTabState
+          };
+        }, () => {
+          console.log('setState callback - new state for tab:', tab, this.state[tab]);
+          console.log('setState callback - selectedRows specifically:', this.state[tab].selectedRows);
+          
+          // Generate a new question after state is updated
+          if (tab === this.state.activeTab) {
+            this.nextQuestionForTab(tab, {});
+          }
+        });
       } else {
+        console.log('Component not mounted, setting state directly');
+        const currentTabState = this.state[tab];
+        const newTabState: TabState = {
+          facts: facts,
+          responses: responses,
+          question: App.emptyQuestion,
+          maxQuestions: prompts.length,
+          selectedRows: selectedRows,
+          numCorrect: currentTabState.numCorrect,
+          numAnswered: currentTabState.numAnswered,
+          seenSet: {},
+        };
         // eslint-disable-next-line
-        (this.state as any)[tab] = tabState;
-      }
-      
-      if (tab === this.state.activeTab) {
-        this.nextQuestionForTab(tab, {});
+        (this.state as any)[tab] = newTabState;
+        
+        // Generate a new question after state is updated (for non-mounted case)
+        if (tab === this.state.activeTab) {
+          this.nextQuestionForTab(tab, {});
+        }
       }
     }
   }
@@ -248,9 +275,14 @@ class App extends React.Component<object, AppState> {
   }
 
   handleRowSelectionChange = (selectedRows: string[]): void => {
+    console.log('App handleRowSelectionChange called:', { selectedRows, activeTab: this.state.activeTab });
     const tab = this.state.activeTab;
-    if (tab === 'kanji') return; // Row selection only for hiragana/katakana
+    if (tab === 'kanji') {
+      console.log('Ignoring row selection change for kanji tab');
+      return; // Row selection only for hiragana/katakana
+    }
     
+    console.log('Saving to localStorage and re-initializing tab with new selection');
     // Save to localStorage
     window.localStorage.setItem(`selectedRows_${tab}`, JSON.stringify(selectedRows));
     
@@ -487,6 +519,7 @@ class App extends React.Component<object, AppState> {
 
   override render(): React.JSX.Element {
     const tabState = this.state[this.state.activeTab];
+    console.log('Render method - tabState.selectedRows:', tabState.selectedRows);
     const numSeen = Object.keys(tabState.seenSet).length;
     const numTotal = Object.keys(tabState.facts).length;
     return (

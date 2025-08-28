@@ -28,7 +28,7 @@ const RowGrid = styled.div`
   gap: 0.5rem;
 `;
 
-const RowItem = styled.label<{ $selected: boolean }>`
+const RowItem = styled.div<{ $selected: boolean }>`
   display: flex;
   flex-direction: column;
   padding: 0.5rem;
@@ -73,11 +73,22 @@ interface RowSelectorProps {
 }
 
 function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelectorProps): React.JSX.Element {
+  console.log('RowSelector rendered with:', { 
+    rowsCount: rows.length, 
+    selectedRowIds, 
+    firstFewRows: rows.slice(0, 3).map(r => ({ id: r.id, name: r.name }))
+  });
+  
   const handleCheckboxChange = (rowId: string, checked: boolean): void => {
+    console.log('RowSelector handleCheckboxChange called:', { rowId, checked, currentSelectedRowIds: selectedRowIds });
     if (checked) {
-      onRowSelectionChange([...selectedRowIds, rowId]);
+      const newSelection = [...selectedRowIds, rowId];
+      console.log('Adding row, new selection:', newSelection);
+      onRowSelectionChange(newSelection);
     } else {
-      onRowSelectionChange(selectedRowIds.filter(id => id !== rowId));
+      const newSelection = selectedRowIds.filter(id => id !== rowId);
+      console.log('Removing row, new selection:', newSelection);
+      onRowSelectionChange(newSelection);
     }
   };
 
