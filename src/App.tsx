@@ -7,6 +7,13 @@ import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPick
 
 import data from './data.yaml';
 
+interface Fact {
+  prompt: string;
+  response: string;
+  related: string[];
+  mnemonic: string;
+}
+
 const Tada = String.fromCodePoint(127881);
 
 const Container = styled.div`
@@ -55,13 +62,6 @@ function Summary(props: SummaryProps) {
       <div>Answered: {props.answered}</div>
     </div>
   )
-}
-
-interface Fact {
-  prompt: string;
-  response: string;
-  related: string[];
-  mnemonic: string;
 }
 
 interface Question {
