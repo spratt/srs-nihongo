@@ -107,6 +107,11 @@ function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelector
     setShowToast(false);
   };
 
+  const handleRowClick = (rowId: string, currentlyChecked: boolean): void => {
+    // Toggle the checkbox state when clicking anywhere on the row
+    handleCheckboxChange(rowId, !currentlyChecked);
+  };
+
   // Group rows by category
   const rowsByCategory = {
     main: rows.filter(r => r.category === 'main'),
@@ -126,12 +131,14 @@ function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelector
             <RowItem 
               key={row.id} 
               $selected={selectedRowIds.includes(row.id)}
+              onClick={() => handleRowClick(row.id, selectedRowIds.includes(row.id))}
             >
               <RowHeader>
                 <Checkbox
                   type="checkbox"
                   checked={selectedRowIds.includes(row.id)}
                   onChange={(e) => handleCheckboxChange(row.id, e.target.checked)}
+                  onClick={(e) => e.stopPropagation()}
                 />
                 <RowName>{row.name}</RowName>
               </RowHeader>
