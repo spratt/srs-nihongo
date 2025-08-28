@@ -55,7 +55,7 @@ interface SummaryProps {
   correct: number;
 }
 
-function Summary(props: SummaryProps) {
+function Summary(props: SummaryProps): React.JSX.Element {
   return (
     <div>
       <div>Correct: {props.correct}</div>
@@ -74,14 +74,14 @@ interface AppState {
   responses: string[];
   question: Question;
   maxQuestions: number;
-  answer?: string;
+  answer?: string | undefined;
 
   numCorrect: number;
   numAnswered: number;
-  seenSet: Record<string,{}>;
+  seenSet: Record<string, object>;
 }
 
-class App extends React.Component<{},AppState> {
+class App extends React.Component<object, AppState> {
   private questionPicker: QuestionPicker;
   private mounted: boolean = false;
   private maxQuestionsKey = 'maxQuestions';
@@ -96,7 +96,7 @@ class App extends React.Component<{},AppState> {
     responses: [],
   };
 
-  constructor(props: {}) {
+  constructor(props: object) {
     super(props);
     console.log('new App()');
 
@@ -121,25 +121,31 @@ class App extends React.Component<{},AppState> {
     this.setQuestions(maxQuestions, data.facts);
   }
 
-  componentDidMount() {
+  override componentDidMount(): void {
     this.mounted = true;
   }
 
-  decMaxQuestions() {
+  decMaxQuestions(): void {
     if (this.state.maxQuestions - 1 < 4) return;
     this.setQuestions(this.state.maxQuestions - 1, this.state.facts);
   }
 
-  incMaxQuestions() {
+  incMaxQuestions(): void {
     if (this.state.maxQuestions + 1 > Object.keys(this.state.facts).length) return;
     this.setQuestions(this.state.maxQuestions + 1, this.state.facts);
   }
 
-  setQuestions(maxQuestions: number, facts: Record<string,Fact>) {
+  setQuestions(maxQuestions: number, facts: Record<string,Fact>): void {
     window.localStorage.setItem(this.maxQuestionsKey, String(maxQuestions));
     const prompts = Object.keys(facts).slice(0, maxQuestions)
     this.questionPicker = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
-    const responses = prompts.map((prompt: string) => facts[prompt].response);
+    const responses = prompts.map((prompt: string) => {
+      const fact = facts[prompt];
+      if (fact === undefined) {
+        throw new Error(`Fact not found for prompt: ${prompt}`);
+      }
+      return fact.response;
+    });
     if (this.mounted) {
       const newState = {
         facts: facts,
@@ -165,7 +171,7 @@ class App extends React.Component<{},AppState> {
     this.nextQuestion({});
   }
   
-  nextQuestion(seenSet: Record<string,{}>) {
+  nextQuestion(seenSet: Record<string, object>): void {
     if (Object.keys(this.state.facts).length === 0) {
       return
     }
@@ -174,11 +180,14 @@ class App extends React.Component<{},AppState> {
     }
     const key = this.questionPicker.nextQuestion();
     const fact = this.state.facts[key];
+    if (fact === undefined) {
+      throw new Error(`Fact not found for key: ${key}`);
+    }
     const responses = [fact.response];
     const otherResponses = this.state.responses.filter((response) => response !== fact.response);
     responses.push(...randomChoices(otherResponses, 3));
     const newSeenSet = _.clone(seenSet);
-    newSeenSet[fact.prompt] = {};
+    newSeenSet[fact.prompt] = Object.create(null) as object;
 
     if (this.mounted) {
       this.setState({
@@ -208,7 +217,7 @@ class App extends React.Component<{},AppState> {
     }
   }
 
-  handleClick(r: string) {
+  handleClick(r: string): void {
     if (this.state.answer !== null && this.state.answer !== undefined) return;
     this.setState({
       answer: r,
@@ -227,19 +236,19 @@ class App extends React.Component<{},AppState> {
     });
   }
 
-  hasAnswered() {
+  hasAnswered(): boolean {
     return this.state.answer !== null && this.state.answer !== undefined;
   }
 
-  isCorrectAnswer(response: string) {
+  isCorrectAnswer(response: string): boolean {
     return response === this.state.question.fact.response;
   }
 
-  isWrongAnswer(response: string) {
+  isWrongAnswer(response: string): boolean {
     return this.state.answer === response && response !== this.state.question.fact.response;
   }
 
-  renderCard() {
+  renderCard(): React.JSX.Element {
     const buttons = this.state.question.responses.map((response: string, i: number) => {
       if (this.hasAnswered()) {
         if (this.isCorrectAnswer(response)) {
@@ -278,10 +287,10 @@ class App extends React.Component<{},AppState> {
     );
   }
 
-  renderMnemonic() {
+  renderMnemonic(): React.JSX.Element {
     if (!this.hasAnswered()) return (<Mnemonic />);
     let response = '';
-    if (this.isCorrectAnswer(this.state.answer || '')) {
+    if (this.isCorrectAnswer(this.state.answer ?? '')) {
       response = Tada + Tada + Tada + 'Great job!' + Tada + Tada + Tada;
     } else {
       response = 'Try to remember: ' + this.state.question.fact.mnemonic;
@@ -291,7 +300,7 @@ class App extends React.Component<{},AppState> {
     );
   }
 
-  render() {
+  override render(): React.JSX.Element {
     const numSeen = Object.keys(this.state.seenSet).length;
     const numTotal = Object.keys(this.state.facts).length;
     return (

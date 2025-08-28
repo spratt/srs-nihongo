@@ -1,4 +1,4 @@
-function randomInt(max: number) {
+function randomInt(max: number): number {
   return Math.floor(Math.random() * Math.floor(max));
 }
 
@@ -7,11 +7,14 @@ export function randomChoices<T>(arr: T[], n: number): T[] {
     return arr;
   }
   const options = arr.slice();
-  const choices = [];
+  const choices: T[] = [];
   while (choices.length < n) {
-    let i = randomInt(options.length);
-    choices.push(options[i]);
-    options.splice(i, 1);
+    const i = randomInt(options.length);
+    const choice = options[i];
+    if (choice !== undefined) {
+      choices.push(choice);
+      options.splice(i, 1);
+    }
   }
   return choices;
 }

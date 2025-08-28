@@ -11,11 +11,11 @@ export interface QuestionPicker {
 }
 
 export class NullQuestionPicker implements QuestionPicker {
-  nextQuestion() { return "Not implemented" }
-  feedback(s: string, b: boolean) {}
+  nextQuestion(): string { return "Not implemented" }
+  feedback(_s: string, _b: boolean): void {}
   
-  isReady() { return false }
-  whenReady() { return EndOfTime }
+  isReady(): boolean { return false }
+  whenReady(): Date { return EndOfTime }
 }
 
 export type NonEmptyArray<T> = [T, ...T[]];
@@ -28,15 +28,19 @@ export class RandomQuestionPicker implements QuestionPicker {
   }
 
   nextQuestion(): string {
-    return randomChoices(this.prompts, 1)[0];
+    const choice = randomChoices(this.prompts, 1)[0];
+    if (choice === undefined) {
+      throw new Error('No questions available');
+    }
+    return choice;
   }
 
-  feedback(s: string, b: boolean) {
+  feedback(s: string, b: boolean): void {
     console.log(`RandomQuestionPicker.feedback(s = ${s}, b = ${b})`);
   }
 
-  isReady() { return true }
-  whenReady() { return new Date() }
+  isReady(): boolean { return true }
+  whenReady(): Date { return new Date() }
 }
 
 interface PromptValue {
@@ -50,36 +54,44 @@ export class SimpleSRSQuestionPicker implements QuestionPicker {
   private lastQuestion: string = '';
 
   constructor(prompts: NonEmptyArray<string>) {
-    const oldValues = JSON.parse(window.localStorage.getItem(this.valueKey) || '{}');
+    const oldValues = JSON.parse(window.localStorage.getItem(this.valueKey) ?? '{}') as Record<string, number>;
     this.promptValues = shuffle(prompts).map((prompt) => {
       return {
         prompt: prompt,
-        value: oldValues[prompt] || 1,
+        value: oldValues[prompt] ?? 1,
       };
     });
   }
 
   nextQuestion(): string {
-    const first = this.promptValues[0].prompt;
-    if (this.lastQuestion === first) {
-      const second = this.promptValues[1].prompt;
-      this.lastQuestion = second;
-      return second;
+    const first = this.promptValues[0];
+    if (first === undefined) {
+      throw new Error('No questions available');
     }
-    this.lastQuestion = first;
-    return first;
+    
+    if (this.lastQuestion === first.prompt) {
+      const second = this.promptValues[1];
+      if (second === undefined) {
+        throw new Error('Not enough questions available');
+      }
+      this.lastQuestion = second.prompt;
+      return second.prompt;
+    }
+    this.lastQuestion = first.prompt;
+    return first.prompt;
   }
 
   findPromptValue(s: string): PromptValue | null {
-    const pvs= this.promptValues.filter((pv) => pv.prompt === s);
+    const pvs = this.promptValues.filter((pv) => pv.prompt === s);
     if (pvs.length === 0) return null;
-    return pvs[0];
+    const found = pvs[0];
+    return found ?? null;
   }
 
-  feedback(s: string, correct: boolean) {
+  feedback(s: string, correct: boolean): void {
     const nullablePV = this.findPromptValue(s);
     if (nullablePV === null) return;
-    const pv: PromptValue = nullablePV as PromptValue;
+    const pv: PromptValue = nullablePV;
     if (correct) pv.value *= 1.1;
     else pv.value *= 0.9;
     this.promptValues = shuffle(this.promptValues);
@@ -89,6 +101,6 @@ export class SimpleSRSQuestionPicker implements QuestionPicker {
     window.localStorage.setItem(this.valueKey, JSON.stringify(this.promptValues));
   }
 
-  isReady() { return true }
-  whenReady() { return new Date() }
+  isReady(): boolean { return true }
+  whenReady(): Date { return new Date() }
 }
