@@ -6,6 +6,7 @@ import {shuffle, randomChoices} from './random';
 import {NonEmptyArray, QuestionPicker, NullQuestionPicker, SimpleSRSQuestionPicker} from './QuestionPicker';
 import TabBar, { TabType } from './TabBar';
 import RowSelector from './RowSelector';
+import Accordion from './Accordion';
 import { hiraganaRows, katakanaRows, getCharactersFromRows } from './characterRows';
 
 import dataKanji from './data.yaml';
@@ -492,11 +493,13 @@ class App extends React.Component<object, AppState> {
         ) : (
           <div>
             <div>Seen: { numSeen }</div>
-            <RowSelector
-              rows={this.state.activeTab === 'hiragana' ? hiraganaRows : katakanaRows}
-              selectedRowIds={tabState.selectedRows ?? []}
-              onRowSelectionChange={this.handleRowSelectionChange}
-            />
+            <Accordion title="Character Rows" defaultOpen={false}>
+              <RowSelector
+                rows={this.state.activeTab === 'hiragana' ? hiraganaRows : katakanaRows}
+                selectedRowIds={tabState.selectedRows ?? []}
+                onRowSelectionChange={this.handleRowSelectionChange}
+              />
+            </Accordion>
           </div>
         )}
         {this.renderCard()}

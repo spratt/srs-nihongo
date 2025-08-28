@@ -3,10 +3,7 @@ import styled from 'styled-components';
 import { CharacterRow } from './characterRows';
 
 const SelectorContainer = styled.div`
-  margin: 1rem;
-  padding: 1rem;
-  border: 1px solid #ddd;
-  border-radius: 8px;
+  /* Removed margin, padding, and border since it's now inside accordion */
 `;
 
 const CategorySection = styled.div`
