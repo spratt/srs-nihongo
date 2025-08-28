@@ -38,7 +38,7 @@ facts:
     prompt: か
     response: ka
     related: []
-    mnemonic: "A key with a notch. 'Ka' sounds like 'key'."
+    mnemonic: "A mosquito buzzing around. Think 'ka' sound."
     image: "images/か-mosquito.png"
 
   き:
@@ -73,14 +73,14 @@ facts:
     prompt: さ
     response: sa
     related: []
-    mnemonic: "A woman bowing with her hand up, saying 'sir'."
+    mnemonic: "Salsa dancing with flowing movements. Think 'salsa' for 'sa'."
     image: "images/さ-salsa.jpg"
 
   し:
     prompt: し
     response: shi
     related: []
-    mnemonic: "A woman with long hair. She's shy."
+    mnemonic: "A shepherd's crook for guiding sheep. Think 'shepherd' for 'shi'."
     image: "images/し-sheperds-crook.png"
 
   す:
@@ -101,35 +101,35 @@ facts:
     prompt: そ
     response: so
     related: []
-    mnemonic: "A zipper going up and down. Think 'so-so'."
+    mnemonic: "A soda bottle with bubbles fizzing. Think 'soda' for 'so'."
     image: "images/そ-soda.png"
 
   た:
     prompt: た
     response: ta
     related: []
-    mnemonic: "A cross with a line through it. Think 'ta' as in 'ta-da!'."
+    mnemonic: "A delicious taco folded in half. Think 'taco' for 'ta'."
     image: "images/た-taco.png"
 
   ち:
     prompt: ち
     response: chi
     related: []
-    mnemonic: "A cheerleader with pom-poms up high."
+    mnemonic: "Say cheese! Smiling for a photo. Think 'cheese' for 'chi'."
     image: "images/ち-say-cheese.png"
 
   つ:
     prompt: つ
     response: tsu
     related: []
-    mnemonic: "A hook to catch a tsunami wave."
+    mnemonic: "A tsunami wave crashing down. Think 'tsunami' for 'tsu'."
     image: "images/つ-tsunami.jpg"
 
   て:
     prompt: て
     response: te
     related: []
-    mnemonic: "A hand giving someone a telephone."
+    mnemonic: "A telescope for looking at stars. Think 'telescope' for 'te'."
     image: "images/て-telescope.png"
 
   と:
@@ -192,7 +192,7 @@ facts:
     prompt: ふ
     response: fu
     related: []
-    mnemonic: "Mount Fuji with snow on top."
+    mnemonic: "A hula hoop spinning around. Think 'hoop' for 'fu'."
     image: "images/ふ-fool-hula-hoop.jpg"
 
   へ:
@@ -248,7 +248,7 @@ facts:
     prompt: や
     response: ya
     related: []
-    mnemonic: "A yacht sailing on water."
+    mnemonic: "A yacht sailing on the ocean. Think 'yacht' for 'ya'."
     image: "images/や-yacht.png"
 
   ゆ:
@@ -262,14 +262,14 @@ facts:
     prompt: よ
     response: yo
     related: []
-    mnemonic: "A yo-yo on a string."
+    mnemonic: "A yo-yo spinning up and down. Think 'yo-yo' for 'yo'."
     image: "images/よ-yo.jpg"
 
   ら:
     prompt: ら
     response: ra
     related: []
-    mnemonic: "A rabbit hopping along."
+    mnemonic: "A rabbit hopping in the garden. Think 'rabbit' for 'ra'."
     image: "images/ら-rabbit.png"
 
   り:
@@ -304,7 +304,7 @@ facts:
     prompt: わ
     response: wa
     related: []
-    mnemonic: "A wine glass. Think 'water' for 'wa'."
+    mnemonic: "A wasp buzzing around dangerously. Think 'wasp' for 'wa'."
     image: "images/わ-wasp.png"
 
   ゐ:

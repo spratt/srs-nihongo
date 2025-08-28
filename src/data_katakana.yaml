@@ -3,14 +3,14 @@ facts:
     prompt: ア
     response: a
     related: []
-    mnemonic: "An axe cutting through wood, making an 'ah' sound."
+    mnemonic: "The letter A in bold font. Think 'A' for 'a'."
     image: "images/ア-A.jpg"
 
   イ:
     prompt: イ
     response: i
     related: []
-    mnemonic: "An eagle diving down. Think 'eee' for the sound."
+    mnemonic: "An eagle soaring through the sky. Think 'eagle' for 'i'."
     image: "images/イ-eagle.png"
 
   ウ:
@@ -24,14 +24,14 @@ facts:
     prompt: エ
     response: e
     related: []
-    mnemonic: "Elevator doors opening. Think 'eh' sound."
+    mnemonic: "A steel girder in construction. Think 'girder' for 'e'."
     image: "images/エ-girder.jpg"
 
   オ:
     prompt: オ
     response: o
     related: []
-    mnemonic: "A man doing a karate kick. 'Oh!' he shouts."
+    mnemonic: "An opera singer performing on stage. Think 'opera' for 'o'."
     image: "images/オ-opera.jpg"
 
   カ:
@@ -45,14 +45,14 @@ facts:
     prompt: キ
     response: ki
     related: []
-    mnemonic: "A key with teeth on both sides."
+    mnemonic: "A key unlocking a door. Think 'key' for 'ki'."
     image: "images/キ-key.png"
 
   ク:
     prompt: ク
     response: ku
     related: []
-    mnemonic: "A bird's beak from the side. 'Coo' like a pigeon."
+    mnemonic: "A cook preparing food in the kitchen. Think 'cook' for 'ku'."
     image: "images/ク-cook.png"
 
   ケ:
@@ -66,28 +66,28 @@ facts:
     prompt: コ
     response: ko
     related: []
-    mnemonic: "Two corners of a box. Think 'corner' for 'ko'."
+    mnemonic: "Corners of a room meeting at right angles. Think 'corners' for 'ko'."
     image: "images/コ-corners.jpg"
 
   サ:
     prompt: サ
     response: sa
     related: []
-    mnemonic: "Three slashes from a samurai sword."
+    mnemonic: "Sakana (fish) swimming in the water. Think 'sakana' for 'sa'."
     image: "images/サ-sakana.png"
 
   シ:
     prompt: シ
     response: shi
     related: []
-    mnemonic: "She has a smiley face tilted to the side."
+    mnemonic: "She is pointing and smiling. Think 'she' for 'shi'."
     image: "images/シ-she.png"
 
   ス:
     prompt: ス
     response: su
     related: []
-    mnemonic: "A swing set. Think 'swing' starts with 's'."
+    mnemonic: "Superman flying with his cape. Think 'superman' for 'su'."
     image: "images/ス-superman.png"
 
   セ:
@@ -101,84 +101,84 @@ facts:
     prompt: ソ
     response: so
     related: []
-    mnemonic: "A single sewing stitch. 'So' simple!"
+    mnemonic: "Sewing thread through fabric. Think 'sew' for 'so'."
     image: "images/ソ-sew.png"
 
   タ:
     prompt: タ
     response: ta
     related: []
-    mnemonic: "A tie hanging down. Think 'tie' for 'ta'."
+    mnemonic: "Delicious tacos lined up in a row. Think 'tacos' for 'ta'."
     image: "images/タ-tacos.png"
 
   チ:
     prompt: チ
     response: chi
     related: []
-    mnemonic: "A cheerleader doing a split jump."
+    mnemonic: "A cheerleader jumping with pom-poms. Think 'cheerleader' for 'chi'."
     image: "images/チ-cheerleader.png"
 
   ツ:
     prompt: ツ
     response: tsu
     related: []
-    mnemonic: "Two eyes with a big smile. 'Tsu' happy!"
+    mnemonic: "Two happy faces side by side. Think 'two' for 'tsu'."
     image: "images/ツ-two.png"
 
   テ:
     prompt: テ
     response: te
     related: []
-    mnemonic: "A telephone pole with a wire."
+    mnemonic: "A telephone pole standing tall. Think 'telephone pole' for 'te'."
     image: "images/テ-telephone-pole.png"
 
   ト:
     prompt: ト
     response: to
     related: []
-    mnemonic: "A totem pole standing tall."
+    mnemonic: "A totem pole with carved faces. Think 'totem pole' for 'to'."
     image: "images/ト-totem-pole.png"
 
   ナ:
     prompt: ナ
     response: na
     related: []
-    mnemonic: "A knife in a holder. 'Nah, don't touch!'"
+    mnemonic: "A narwhal with its long tusk. Think 'narwhal' for 'na'."
     image: "images/ナ-narwhal.jpg"
 
   ニ:
     prompt: ニ
     response: ni
     related: []
-    mnemonic: "Two neat lines. Think 'neat' for 'ni'."
+    mnemonic: "Sharp needles pointing upward. Think 'needles' for 'ni'."
     image: "images/ニ-needles.png"
 
   ヌ:
     prompt: ヌ
     response: nu
     related: []
-    mnemonic: "Noodles crossed over each other."
+    mnemonic: "Noodles tangled together in a bowl. Think 'noodles' for 'nu'."
     image: "images/ヌ-noodles.png"
 
   ネ:
     prompt: ネ
     response: ne
     related: []
-    mnemonic: "A nest in a tree. Think 'nest' for 'ne'."
+    mnemonic: "A horse saying neigh! Think 'neigh' for 'ne'."
     image: "images/ネ-neigh.png"
 
   ノ:
     prompt: ノ
     response: no
     related: []
-    mnemonic: "A simple 'no' slash mark."
+    mnemonic: "A pointed nose in profile. Think 'nose' for 'no'."
     image: "images/ノ-nose.png"
 
   ハ:
     prompt: ハ
     response: ha
     related: []
-    mnemonic: "A house with two walls. 'Ha ha!' from inside."
+    mnemonic: "A hat sitting on someone's head. Think 'hat' for 'ha'."
     image: "images/ハ-hat.png"
 
   ヒ:
@@ -192,7 +192,7 @@ facts:
     prompt: フ
     response: fu
     related: []
-    mnemonic: "A hood from the side. Think 'hood' sounds like 'fu'."
+    mnemonic: "A flag waving in the wind. Think 'flag' for 'fu'."
     image: "images/フ-flag.png"
 
   ヘ:
@@ -206,35 +206,35 @@ facts:
     prompt: ホ
     response: ho
     related: []
-    mnemonic: "A holy cross with a hat on top."
+    mnemonic: "A holy cross in a church. Think 'holy' for 'ho'."
     image: "images/ホ-holy.png"
 
   マ:
     prompt: マ
     response: ma
     related: []
-    mnemonic: "Mama's two eyes looking down at you."
+    mnemonic: "Math angles forming geometric shapes. Think 'math angles' for 'ma'."
     image: "images/マ-math-angles.png"
 
   ミ:
     prompt: ミ
     response: mi
     related: []
-    mnemonic: "Three lines like the 'mi' in do-re-mi."
+    mnemonic: "Missiles launching into the sky. Think 'missiles' for 'mi'."
     image: "images/ミ-missles.png"
 
   ム:
     prompt: ム
     response: mu
     related: []
-    mnemonic: "A cow's head from the front. 'Moo!'"
+    mnemonic: "A cow going moo in the pasture. Think 'moo' for 'mu'."
     image: "images/ム-moo.png"
 
   メ:
     prompt: メ
     response: me
     related: []
-    mnemonic: "An 'X' marks 'me' on the map."
+    mnemonic: "An X marking me on the map. Think 'me' for 'me'."
     image: "images/メ-me.png"
 
   モ:
@@ -262,14 +262,14 @@ facts:
     prompt: ヨ
     response: yo
     related: []
-    mnemonic: "Three horizontal lines. Yo! Count them!"
+    mnemonic: "A yogi meditating peacefully. Think 'yogi' for 'yo'."
     image: "images/ヨ-yogi.png"
 
   ラ:
     prompt: ラ
     response: ra
     related: []
-    mnemonic: "A radio antenna picking up signals."
+    mnemonic: "A raptor dinosaur with sharp claws. Think 'raptor' for 'ra'."
     image: "images/ラ-raptor.png"
 
   リ:
@@ -283,7 +283,7 @@ facts:
     prompt: ル
     response: ru
     related: []
-    mnemonic: "Looks like a rudder or roots growing down."
+    mnemonic: "Routes branching in different directions. Think 'routes' for 'ru'."
     image: "images/ル-routes.png"
 
   レ:
@@ -297,14 +297,14 @@ facts:
     prompt: ロ
     response: ro
     related: []
-    mnemonic: "A robot's square mouth. 'Ro-bot!'"
+    mnemonic: "A straight road stretching ahead. Think 'road' for 'ro'."
     image: "images/ロ-road.png"
 
   ワ:
     prompt: ワ
     response: wa
     related: []
-    mnemonic: "A wave crashing down. 'Wa' for wave."
+    mnemonic: "What? A question mark shape. Think 'what' for 'wa'."
     image: "images/ワ-what.png"
 
   ヰ:
@@ -323,12 +323,12 @@ facts:
     prompt: ヲ
     response: wo
     related: []
-    mnemonic: "Whoa! A special particle character."
+    mnemonic: "Woof! A dog barking happily. Think 'woof' for 'wo'."
     image: "images/ヲ-woof.png"
 
   ン:
     prompt: ン
     response: n
     related: []
-    mnemonic: "Like a simplified 'n'. The only consonant ending."
+    mnemonic: "A one-eyed man looking sideways. Think 'one-eyed man' for 'n'."
     image: "images/ン-one-eyed-man.png"
