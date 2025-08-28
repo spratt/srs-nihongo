@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 import { CharacterRow } from './characterRows';
+import Toast from './Toast';
 
 const SelectorContainer = styled.div`
   /* Removed margin, padding, and border since it's now inside accordion */
@@ -79,6 +80,9 @@ function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelector
     firstFewRows: rows.slice(0, 3).map(r => ({ id: r.id, name: r.name }))
   });
   
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
+  
   const handleCheckboxChange = (rowId: string, checked: boolean): void => {
     console.log('RowSelector handleCheckboxChange called:', { rowId, checked, currentSelectedRowIds: selectedRowIds });
     if (checked) {
@@ -86,10 +90,21 @@ function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelector
       console.log('Adding row, new selection:', newSelection);
       onRowSelectionChange(newSelection);
     } else {
+      // Prevent unselecting if this is the only selected row
+      if (selectedRowIds.length === 1) {
+        console.log('Preventing unselection of last row');
+        setToastMessage('At least one character set must be selected');
+        setShowToast(true);
+        return;
+      }
       const newSelection = selectedRowIds.filter(id => id !== rowId);
       console.log('Removing row, new selection:', newSelection);
       onRowSelectionChange(newSelection);
     }
+  };
+  
+  const hideToast = (): void => {
+    setShowToast(false);
   };
 
   // Group rows by category
@@ -131,12 +146,19 @@ function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelector
   };
 
   return (
-    <SelectorContainer>
-      {renderCategory('Main Characters', rowsByCategory.main)}
-      {renderCategory('Dakuten (゛)', rowsByCategory.dakuten)}
-      {renderCategory('Han-dakuten (゜)', rowsByCategory.handakuten)}
-      {renderCategory('Combinations', rowsByCategory.combination)}
-    </SelectorContainer>
+    <>
+      <SelectorContainer>
+        {renderCategory('Main Characters', rowsByCategory.main)}
+        {renderCategory('Dakuten (゛)', rowsByCategory.dakuten)}
+        {renderCategory('Han-dakuten (゜)', rowsByCategory.handakuten)}
+        {renderCategory('Combinations', rowsByCategory.combination)}
+      </SelectorContainer>
+      <Toast 
+        message={toastMessage}
+        isVisible={showToast}
+        onHide={hideToast}
+      />
+    </>
   );
 }
 
