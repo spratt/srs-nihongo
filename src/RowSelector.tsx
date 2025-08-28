@@ -74,31 +74,22 @@ interface RowSelectorProps {
 }
 
 function RowSelector({ rows, selectedRowIds, onRowSelectionChange }: RowSelectorProps): React.JSX.Element {
-  console.log('RowSelector rendered with:', { 
-    rowsCount: rows.length, 
-    selectedRowIds, 
-    firstFewRows: rows.slice(0, 3).map(r => ({ id: r.id, name: r.name }))
-  });
   
   const [showToast, setShowToast] = useState(false);
   const [toastMessage, setToastMessage] = useState('');
   
   const handleCheckboxChange = (rowId: string, checked: boolean): void => {
-    console.log('RowSelector handleCheckboxChange called:', { rowId, checked, currentSelectedRowIds: selectedRowIds });
     if (checked) {
       const newSelection = [...selectedRowIds, rowId];
-      console.log('Adding row, new selection:', newSelection);
       onRowSelectionChange(newSelection);
     } else {
       // Prevent unselecting if this is the only selected row
       if (selectedRowIds.length === 1) {
-        console.log('Preventing unselection of last row');
         setToastMessage('At least one character set must be selected');
         setShowToast(true);
         return;
       }
       const newSelection = selectedRowIds.filter(id => id !== rowId);
-      console.log('Removing row, new selection:', newSelection);
       onRowSelectionChange(newSelection);
     }
   };

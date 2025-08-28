@@ -36,7 +36,6 @@ export class RandomQuestionPicker implements QuestionPicker {
   }
 
   feedback(s: string, b: boolean): void {
-    console.log(`RandomQuestionPicker.feedback(s = ${s}, b = ${b})`);
   }
 
   isReady(): boolean { return true }
