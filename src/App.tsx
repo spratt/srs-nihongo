@@ -18,6 +18,7 @@ interface Fact {
   response: string;
   related: string[];
   mnemonic: string;
+  image?: string;
 }
 
 const Tada = String.fromCodePoint(127881);
@@ -55,6 +56,14 @@ const WrongButton = styled.button`
 const Prompt = styled.h2``;
 
 const Mnemonic = styled.h3``;
+
+const MnemonicImage = styled.img`
+  max-width: 200px;
+  max-height: 150px;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  border: 1px solid #ddd;
+`;
 
 interface SummaryProps {
   answered: number;
@@ -443,15 +452,28 @@ class App extends React.Component<object, AppState> {
   renderMnemonic(): React.JSX.Element {
     const tabState = this.state[this.state.activeTab];
     if (!this.hasAnswered()) return (<Mnemonic />);
-    let response = '';
+    
     if (this.isCorrectAnswer(tabState.answer ?? '')) {
-      response = Tada + Tada + Tada + 'Great job!' + Tada + Tada + Tada;
+      const response = Tada + Tada + Tada + 'Great job!' + Tada + Tada + Tada;
+      return <Mnemonic>{response}</Mnemonic>;
     } else {
-      response = 'Try to remember: ' + tabState.question.fact.mnemonic;
+      const fact = tabState.question.fact;
+      return (
+        <div>
+          <Mnemonic>Try to remember: {fact.mnemonic}</Mnemonic>
+          {fact.image && (
+            <MnemonicImage 
+              src={fact.image} 
+              alt={`Mnemonic image for ${fact.prompt}`}
+              onError={(e) => {
+                // Hide image if it fails to load
+                (e.target as HTMLImageElement).style.display = 'none';
+              }}
+            />
+          )}
+        </div>
+      );
     }
-    return (
-      <Mnemonic>{ response }</Mnemonic>
-    );
   }
 
   handleTabChange = (tab: TabType): void => {

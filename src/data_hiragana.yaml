@@ -4,264 +4,308 @@ facts:
     response: a
     related: []
     mnemonic: "An arrow pointing to the side, saying 'ah' in surprise."
+    image: "images/あ.png"
 
   い:
     prompt: い
     response: i
     related: []
     mnemonic: "Two sticks, one big and one small. Think 'eee' for the sound."
+    image: "images/い.png"
 
   う:
     prompt: う
     response: u
     related: []
     mnemonic: "Looks like a cow's face saying 'moo' (sounds like 'u')."
+    image: "images/う.png"
 
   え:
     prompt: え
     response: e
     related: []
     mnemonic: "An exotic bird's beak opening to say 'eh'."
+    image: "images/え.png"
 
   お:
     prompt: お
     response: o
     related: []
     mnemonic: "A cheerleader's pom-pom. She says 'oh!' when she drops it."
+    image: "images/お.jpg"
 
   か:
     prompt: か
     response: ka
     related: []
     mnemonic: "A key with a notch. 'Ka' sounds like 'key'."
+    image: "images/か-mosquito.png"
 
   き:
     prompt: き
     response: ki
     related: []
     mnemonic: "A key hanging from a hook. Think 'key'."
+    image: "images/き.png"
 
   く:
     prompt: く
     response: ku
     related: []
     mnemonic: "A duck's bill. Ducks say 'quack' which starts with 'ku'."
+    image: "images/く.png"
 
   け:
     prompt: け
     response: ke
     related: []
     mnemonic: "Keg of beer tipped over, spilling."
+    image: "images/け-kelp.png"
 
   こ:
     prompt: こ
     response: ko
     related: []
     mnemonic: "Two coins stacked. Think 'coins' for 'ko'."
+    image: "images/こ.png"
 
   さ:
     prompt: さ
     response: sa
     related: []
     mnemonic: "A woman bowing with her hand up, saying 'sir'."
+    image: "images/さ-salsa.jpg"
 
   し:
     prompt: し
     response: shi
     related: []
     mnemonic: "A woman with long hair. She's shy."
+    image: "images/し-sheperds-crook.png"
 
   す:
     prompt: す
     response: su
     related: []
     mnemonic: "A screw going through wood. Think 'screw'."
+    image: "images/す.png"
 
   せ:
     prompt: せ
     response: se
     related: []
     mnemonic: "A person saying something. Think 'say'."
+    image: "images/せ.png"
 
   そ:
     prompt: そ
     response: so
     related: []
     mnemonic: "A zipper going up and down. Think 'so-so'."
+    image: "images/そ-soda.png"
 
   た:
     prompt: た
     response: ta
     related: []
     mnemonic: "A cross with a line through it. Think 'ta' as in 'ta-da!'."
+    image: "images/た-taco.png"
 
   ち:
     prompt: ち
     response: chi
     related: []
     mnemonic: "A cheerleader with pom-poms up high."
+    image: "images/ち-say-cheese.png"
 
   つ:
     prompt: つ
     response: tsu
     related: []
     mnemonic: "A hook to catch a tsunami wave."
+    image: "images/つ-tsunami.jpg"
 
   て:
     prompt: て
     response: te
     related: []
     mnemonic: "A hand giving someone a telephone."
+    image: "images/て-telescope.png"
 
   と:
     prompt: と
     response: to
     related: []
     mnemonic: "A toe with a toenail."
+    image: "images/と.png"
 
   な:
     prompt: な
     response: na
     related: []
     mnemonic: "A cross with a curvy line. Think 'nah'."
+    image: "images/な.jpg"
 
   に:
     prompt: に
     response: ni
     related: []
     mnemonic: "A knee bending. Think 'knee'."
+    image: "images/に.jpg"
 
   ぬ:
     prompt: ぬ
     response: nu
     related: []
     mnemonic: "Noodles on a fork."
+    image: "images/ぬ.jpg"
 
   ね:
     prompt: ね
     response: ne
     related: []
     mnemonic: "A cat with a curly tail saying 'nyan'."
+    image: "images/ね.png"
 
   の:
     prompt: の
     response: no
     related: []
     mnemonic: "A 'No!' sign - a circle with a line through it."
+    image: "images/の.jpg"
 
   は:
     prompt: は
     response: ha
     related: []
     mnemonic: "A person dancing, saying 'ha ha ha!'."
+    image: "images/は.png"
 
   ひ:
     prompt: ひ
     response: hi
     related: []
     mnemonic: "A person waving 'hi' with their hand up."
+    image: "images/ひ.jpg"
 
   ふ:
     prompt: ふ
     response: fu
     related: []
     mnemonic: "Mount Fuji with snow on top."
+    image: "images/ふ-fool-hula-hoop.jpg"
 
   へ:
     prompt: へ
     response: he
     related: []
     mnemonic: "A house with a pointed roof. He lives there."
+    image: "images/へ.jpg"
 
   ほ:
     prompt: ほ
     response: ho
     related: []
     mnemonic: "A person with arms crossed saying 'ho ho ho!'."
+    image: "images/ほ.png"
 
   ま:
     prompt: ま
     response: ma
     related: []
     mnemonic: "A mom's face with a curly hairdo."
+    image: "images/ま.jpg"
 
   み:
     prompt: み
     response: mi
     related: []
     mnemonic: "Musical note on a staff. Think 'mi' from do-re-mi."
+    image: "images/み.jpg"
 
   む:
     prompt: む
     response: mu
     related: []
     mnemonic: "A cow saying 'moo'."
+    image: "images/む.jpg"
 
   め:
     prompt: め
     response: me
     related: []
     mnemonic: "An eye looking at me."
+    image: "images/め.jpg"
 
   も:
     prompt: も
     response: mo
     related: []
     mnemonic: "More and more circles stacked up."
+    image: "images/も.jpg"
 
   や:
     prompt: や
     response: ya
     related: []
     mnemonic: "A yacht sailing on water."
+    image: "images/や-yacht.png"
 
   ゆ:
     prompt: ゆ
     response: yu
     related: []
     mnemonic: "A unique fish swimming."
+    image: "images/ゆ.png"
 
   よ:
     prompt: よ
     response: yo
     related: []
     mnemonic: "A yo-yo on a string."
+    image: "images/よ-yo.jpg"
 
   ら:
     prompt: ら
     response: ra
     related: []
     mnemonic: "A rabbit hopping along."
+    image: "images/ら-rabbit.png"
 
   り:
     prompt: り
     response: ri
     related: []
     mnemonic: "Reeds growing by a river."
+    image: "images/り.png"
 
   る:
     prompt: る
     response: ru
     related: []
     mnemonic: "A route that curves and loops."
+    image: "images/る.png"
 
   れ:
     prompt: れ
     response: re
     related: []
     mnemonic: "A person kicking something. Think 'reject'."
+    image: "images/れ.png"
 
   ろ:
     prompt: ろ
     response: ro
     related: []
     mnemonic: "A road that curves and goes around."
+    image: "images/ろ.png"
 
   わ:
     prompt: わ
     response: wa
     related: []
     mnemonic: "A wine glass. Think 'water' for 'wa'."
+    image: "images/わ-wasp.png"
 
   ゐ:
     prompt: ゐ
@@ -280,12 +324,14 @@ facts:
     response: wo
     related: []
     mnemonic: "Whoa! This character is special for particles."
+    image: "images/を.png"
 
   ん:
     prompt: ん
     response: n
     related: []
     mnemonic: "The end of many Japanese words. Think 'end' for 'n'."
+    image: "images/ん.png"
 
   # Dakuten characters (゛ adds voicing)
   が:
