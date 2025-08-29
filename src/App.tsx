@@ -127,7 +127,7 @@ interface AppState {
 }
 
 class App extends React.Component<object, AppState> {
-  private questionPickers: Record<TabType, QuestionPicker>;
+  private questionPickers: Record<Exclude<TabType, 'credit'>, QuestionPicker>;
   private mounted: boolean = false;
   
   static emptyQuestion = {
@@ -251,7 +251,7 @@ class App extends React.Component<object, AppState> {
     }
   }
 
-  initializeTab(tab: TabType, facts: Record<string, Fact>, maxQuestions: number): void {
+  initializeTab(tab: Exclude<TabType, 'credit'>, facts: Record<string, Fact>, maxQuestions: number): void {
     const prompts = Object.keys(facts).slice(0, maxQuestions);
     if (prompts.length > 0) {
       this.questionPickers[tab] = new SimpleSRSQuestionPicker(prompts as NonEmptyArray<string>);
@@ -319,6 +319,7 @@ class App extends React.Component<object, AppState> {
 
   setQuestions(maxQuestions: number, facts: Record<string,Fact>): void {
     const tab = this.state.activeTab;
+    if (tab === 'credit') return; // Credit tab doesn't have questions
     window.localStorage.setItem(`maxQuestions_${tab}`, String(maxQuestions));
     const prompts = Object.keys(facts).slice(0, maxQuestions)
     if (prompts.length > 0) {
@@ -331,7 +332,7 @@ class App extends React.Component<object, AppState> {
       }
       return fact.response;
     });
-    const currentTab = this.state[tab];
+    const currentTab = this.state[tab as 'hiragana' | 'katakana' | 'kanji'];
     
     // Keep only the seen items that are still in the new range
     const newSeenSet: Record<string, object> = {};
@@ -359,21 +360,23 @@ class App extends React.Component<object, AppState> {
       }), () => {
         // Generate a new question only if we don't have one
         if (newTabState.question === App.emptyQuestion || newTabState.question.fact.prompt === '') {
-          this.nextQuestionForTab(tab, newSeenSet);
+          this.nextQuestionForTab(tab as 'hiragana' | 'katakana' | 'kanji', newSeenSet);
         }
       });
     } else {
       // eslint-disable-next-line
       (this.state as any)[tab] = newTabState;
-      this.nextQuestionForTab(tab, newSeenSet);
+      this.nextQuestionForTab(tab as 'hiragana' | 'katakana' | 'kanji', newSeenSet);
     }
   }
   
   nextQuestion(seenSet: Record<string, object>): void {
-    this.nextQuestionForTab(this.state.activeTab, seenSet);
+    if (this.state.activeTab !== 'credit') {
+      this.nextQuestionForTab(this.state.activeTab, seenSet);
+    }
   }
 
-  nextQuestionForTab(tab: TabType, seenSet: Record<string, object>): void {
+  nextQuestionForTab(tab: Exclude<TabType, 'credit'>, seenSet: Record<string, object>): void {
     const tabState = this.state[tab];
     if (Object.keys(tabState.facts).length === 0) {
       return
@@ -415,6 +418,7 @@ class App extends React.Component<object, AppState> {
 
   handleClick(r: string): void {
     const tab = this.state.activeTab;
+    if (tab === 'credit') return; // Credit tab doesn't have questions
     const tabState = this.state[tab];
     if (tabState.answer !== null && tabState.answer !== undefined) return;
     
@@ -439,21 +443,25 @@ class App extends React.Component<object, AppState> {
   }
 
   hasAnswered(): boolean {
+    if (this.state.activeTab === 'credit') return false;
     const tabState = this.state[this.state.activeTab];
     return tabState.answer !== null && tabState.answer !== undefined;
   }
 
   isCorrectAnswer(response: string): boolean {
+    if (this.state.activeTab === 'credit') return false;
     const tabState = this.state[this.state.activeTab];
     return response === tabState.question.fact.response;
   }
 
   isWrongAnswer(response: string): boolean {
+    if (this.state.activeTab === 'credit') return false;
     const tabState = this.state[this.state.activeTab];
     return tabState.answer === response && response !== tabState.question.fact.response;
   }
 
   renderCard(): React.JSX.Element {
+    if (this.state.activeTab === 'credit') return <div></div>;
     const tabState = this.state[this.state.activeTab];
     const buttons = tabState.question.responses.map((response: string, i: number) => {
       if (this.hasAnswered()) {
@@ -494,6 +502,7 @@ class App extends React.Component<object, AppState> {
   }
 
   renderMnemonic(): React.JSX.Element {
+    if (this.state.activeTab === 'credit') return <div></div>;
     const tabState = this.state[this.state.activeTab];
     if (!this.hasAnswered()) return (<Mnemonic />);
     

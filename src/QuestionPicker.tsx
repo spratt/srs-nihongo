@@ -35,7 +35,7 @@ export class RandomQuestionPicker implements QuestionPicker {
     return choice;
   }
 
-  feedback(s: string, b: boolean): void {
+  feedback(_s: string, _b: boolean): void {
   }
 
   isReady(): boolean { return true }
